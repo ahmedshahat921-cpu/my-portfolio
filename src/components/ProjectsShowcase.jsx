@@ -47,20 +47,48 @@ const projectsData = [
     glowColor: 'shadow-violet-500/20'
   },
   {
-    id: 'placeholder1',
-    title: 'Smart Crop Health Analyzer',
-    category: 'AI & Mobile Application',
-    shortDesc: 'A computer vision crop health analyzer enabling farmers to detect crop diseases and suggest immediate treatments. Coming soon.',
-    longDesc: 'Coming soon...',
+    id: 'aastmt',
+    title: 'AASTMT Room Booking Platform',
+    category: 'Full-Stack Web App',
+    shortDesc: 'A comprehensive logistic web application designed for the Arab Academy (AASTMT) to automate and manage room and auditorium reservations, completely eliminating scheduling conflicts and paperwork.',
+    longDesc: 'Resolving resource mismanagement by creating an automated booking and approval engine with strict database validation to ensure seamless campus logistics.',
+    challenge: 'Resource mismanagement and scheduling conflicts caused by manual, paper-based reservation systems for campus rooms and lecture halls.',
+    solution: 'An automated booking engine with multi-role dashboards, strict database validation, conflict prevention algorithms, and automated background administrative tasks.',
     vercelUrl: '',
     githubUrl: '',
-    techStack: ['React Native', 'Node.js', 'PyTorch', 'Supabase', 'PostgreSQL'],
-    coverImage: '/wall2.webp',
-    screenshots: [],
-    features: [],
-    accentColor: 'from-blue-600 to-cyan-600',
-    glowColor: 'shadow-blue-500/20',
-    isPlaceholder: true
+    techStack: ['Next.js', 'Node.js', 'Express', 'PostgreSQL', 'Tailwind CSS', 'Docker'],
+    coverImage: '/ideaproject_aastmt/img/2.png',
+    screenshots: [
+      '/ideaproject_aastmt/img/1.png',
+      '/ideaproject_aastmt/img/2.png',
+      '/ideaproject_aastmt/img/3.png',
+      '/ideaproject_aastmt/img/4.png',
+      '/ideaproject_aastmt/img/5.png'
+    ],
+    features: [
+      {
+        title: 'Dynamic RBAC (Role-Based Access Control)',
+        desc: 'Engineered 4 distinct, secure dashboards tailoring permissions for Admins, Campus Directors, Secretaries, and Employees.'
+      },
+      {
+        title: 'Intelligent Server-Side Validation',
+        desc: 'Programmed "Blind Booking" features to prevent administrative manipulation, enforcing automatic time-restrictions (e.g., locking requests less than 24/48 hours in advance).'
+      },
+      {
+        title: 'Conflict Prevention Engine',
+        desc: 'Built an optimized algorithm that prevents time-slot overlapping and double-booking at the database level.'
+      },
+      {
+        title: 'Backend Automation (Cron Jobs)',
+        desc: 'Integrated automated background tasks for temporary privilege revocation after leaves and daily automated reporting.'
+      },
+      {
+        title: 'DevOps Infrastructure',
+        desc: 'Containerized the application using Docker, configuring reliable CI/CD pipelines for deployment.'
+      }
+    ],
+    accentColor: 'from-blue-600 to-indigo-600',
+    glowColor: 'shadow-blue-500/20'
   },
   {
     id: 'placeholder2',
@@ -422,7 +450,7 @@ const ProjectsShowcase = () => {
 
                   {/* Project Call to Action buttons */}
                   <div className="flex gap-3 mt-4">
-                    {selectedProject.vercelUrl && (
+                    {selectedProject.vercelUrl ? (
                       <a
                         href={selectedProject.vercelUrl}
                         target="_blank"
@@ -437,8 +465,15 @@ const ProjectsShowcase = () => {
                         </svg>
                         Live Demo
                       </a>
+                    ) : (
+                      <span className="flex-1 inline-flex items-center justify-center gap-2 px-5 py-3.5 bg-white/5 text-white/40 font-bold text-xs uppercase tracking-wider rounded-full border border-white/10 cursor-not-allowed select-none">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-70">
+                          <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                          <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                        </svg>
+                        Private Project (Enterprise Network)
+                      </span>
                     )}
-
                   </div>
                 </div>
               </div>
