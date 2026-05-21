@@ -394,6 +394,32 @@ const ProjectsShowcase = () => {
                     </div>
                   )}
 
+                  {/* Demo Accounts (Login Hints) */}
+                  {selectedProject.id === 'teamup' && (
+                    <div className="mb-6 bg-white/5 border border-white/10 rounded-2xl p-4 font-satoshi text-xs">
+                      <h4 className="text-xs uppercase font-bold tracking-wider text-indigo-400 mb-3 flex items-center gap-1.5">
+                        <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                          <path d="M15 7a2 2 0 11-4 0 2 2 0 014 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                        Demo Accounts (Login Details)
+                      </h4>
+                      <div className="space-y-2">
+                        <div className="flex flex-col sm:flex-row justify-between sm:items-center bg-white/5 border border-white/5 rounded-xl px-3 py-2 gap-1">
+                          <span className="font-semibold text-white">Student:</span>
+                          <span className="text-white/60">ID: <code className="text-indigo-300 font-mono font-bold bg-white/10 px-1.5 py-0.5 rounded">241008983</code> | Pass: <code className="text-indigo-300 font-mono font-bold bg-white/10 px-1.5 py-0.5 rounded">123456</code></span>
+                        </div>
+                        <div className="flex flex-col sm:flex-row justify-between sm:items-center bg-white/5 border border-white/5 rounded-xl px-3 py-2 gap-1">
+                          <span className="font-semibold text-white">Professor:</span>
+                          <span className="text-white/60">ID: <code className="text-indigo-300 font-mono font-bold bg-white/10 px-1.5 py-0.5 rounded">100000001</code> | Pass: <code className="text-indigo-300 font-mono font-bold bg-white/10 px-1.5 py-0.5 rounded">123456</code></span>
+                        </div>
+                        <div className="flex flex-col sm:flex-row justify-between sm:items-center bg-white/5 border border-white/5 rounded-xl px-3 py-2 gap-1">
+                          <span className="font-semibold text-white">Admin:</span>
+                          <span className="text-white/60">ID: <code className="text-indigo-300 font-mono font-bold bg-white/10 px-1.5 py-0.5 rounded">211000001</code> | Pass: <code className="text-indigo-300 font-mono font-bold bg-white/10 px-1.5 py-0.5 rounded">123456</code></span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
                   {/* Project Call to Action buttons */}
                   <div className="flex gap-3 mt-4">
                     {selectedProject.vercelUrl && (
