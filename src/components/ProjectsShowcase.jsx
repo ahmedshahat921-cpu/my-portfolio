@@ -129,6 +129,46 @@ const projectsData = [
     ],
     accentColor: 'from-cyan-600 to-blue-600',
     glowColor: 'shadow-cyan-500/20'
+  },
+  {
+    id: 'ramadan',
+    title: 'Ramadan Companion Platform',
+    category: 'Full-Stack Web App',
+    shortDesc: 'A beautifully designed, comprehensive Islamic web application built to assist users during the holy month of Ramadan by providing essential daily spiritual tools in a highly responsive and unified interface.',
+    longDesc: 'Simplifying daily spiritual tracking for fasting users by integrating diverse religious tools (prayer times, supplications, Quran tracking) into a fast, seamless, and ad-free web platform.',
+    challenge: 'Simplifying daily spiritual tracking for fasting users by integrating diverse religious tools into a fast, seamless, and ad-free web platform.',
+    solution: 'A highly responsive, unified React/Next.js dashboard featuring prayer schedulers, interactive athkar/tasbeeh counters, and Khatmah progress trackers.',
+    vercelUrl: 'https://ramadan-companion-drab.vercel.app',
+    githubUrl: 'https://github.com/ahmedshahat921-cpu/ramadan-companion.git',
+    techStack: ['React.js', 'Next.js', 'Tailwind CSS', 'Vercel'],
+    coverImage: '/ideaproject_ramadan/img/2.png',
+    screenshots: [
+      '/ideaproject_ramadan/img/1.png',
+      '/ideaproject_ramadan/img/2.png',
+      '/ideaproject_ramadan/img/3.png',
+      '/ideaproject_ramadan/img/4.png',
+      '/ideaproject_ramadan/img/5.png'
+    ],
+    features: [
+      {
+        title: 'Interactive Prayer Scheduler',
+        desc: 'Displays accurate dynamic prayer times based on the user\'s location with visual countdowns for the next prayer and Iftar.'
+      },
+      {
+        title: 'Digital Athkar & Tasbeeh Counters',
+        desc: 'Integrated interactive counters for morning/evening supplications and praises with automated progress resetting.'
+      },
+      {
+        title: 'Quran Reading & Progress Tracker',
+        desc: 'A structured log system to help users organize, monitor, and successfully finish their Quran reading goals (Khatmah).'
+      },
+      {
+        title: 'Sleek Spiritual UI/UX',
+        desc: 'Designed with a modern, eye-pleasing theme tailored specifically for comfortable nighttime reading and seamless mobile responsiveness.'
+      }
+    ],
+    accentColor: 'from-emerald-600 to-teal-600',
+    glowColor: 'shadow-emerald-500/20'
   }
 ];
 
@@ -497,6 +537,21 @@ const ProjectsShowcase = () => {
                         </svg>
                         Private Project (Enterprise Network)
                       </span>
+                    )}
+
+                    {selectedProject.githubUrl && (
+                      <a
+                        href={selectedProject.githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex-1 inline-flex items-center justify-center gap-2 px-5 py-3.5 bg-white/10 hover:bg-white/20 text-white font-bold text-xs uppercase tracking-wider rounded-full border border-white/10 hover:scale-103 active:scale-97 transition-all duration-200"
+                        style={{ fontFamily: 'Satoshi, sans-serif' }}
+                      >
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                          <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+                        </svg>
+                        Source Code
+                      </a>
                     )}
                   </div>
                 </div>
