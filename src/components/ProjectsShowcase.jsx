@@ -91,20 +91,44 @@ const projectsData = [
     glowColor: 'shadow-blue-500/20'
   },
   {
-    id: 'placeholder2',
-    title: 'Islamic Remembrance App',
-    category: 'Cross-Platform Mobile App',
-    shortDesc: 'A lightweight daily remembrance (Azkar) application compatible with iOS and Android. Coming soon.',
-    longDesc: 'Coming soon...',
+    id: 'dictionary',
+    title: 'Networked Dictionary Platform',
+    category: 'Desktop & Network App',
+    shortDesc: 'A high-performance Client-Server application designed for managing and delivering real-time translation services over local networks and the internet, optimized for zero packet loss and ultra-low latency.',
+    longDesc: 'Eliminating communication drops and handling concurrent user requests efficiently by building a custom, reliable network architecture.',
+    challenge: 'Eliminating communication drops and handling concurrent user requests efficiently.',
+    solution: 'Engineered a robust connection architecture based on raw TCP/IP, ensuring error-free and stable data pipelines, and a high-concurrency multi-threaded server.',
     vercelUrl: '',
     githubUrl: '',
-    techStack: ['HTML5', 'CSS3', 'JavaScript', 'Cordova'],
-    coverImage: '/wall4.webp',
-    screenshots: [],
-    features: [],
-    accentColor: 'from-emerald-600 to-teal-600',
-    glowColor: 'shadow-emerald-500/20',
-    isPlaceholder: true
+    techStack: ['Java', 'Raw TCP/IP & Sockets', 'MongoDB', 'Java Swing (GUI)'],
+    coverImage: '/ideaproject_dictionary/img/1.png',
+    screenshots: [
+      '/ideaproject_dictionary/img/1.png',
+      '/ideaproject_dictionary/img/2.png',
+      '/ideaproject_dictionary/img/3.png',
+      '/ideaproject_dictionary/img/4.png',
+      '/ideaproject_dictionary/img/5.png'
+    ],
+    features: [
+      {
+        title: 'Custom TCP Sockets Arch',
+        desc: 'Engineered a robust connection architecture based on raw TCP/IP, ensuring error-free and stable data pipelines.'
+      },
+      {
+        title: 'Multi-threaded Server',
+        desc: 'Developed a high-concurrency server capable of load balancing and processing hundreds of simultaneous client requests seamlessly without latency.'
+      },
+      {
+        title: 'Smart UI Client',
+        desc: 'Built a sleek, responsive Graphical User Interface (GUI) using Java Swing with a modern Dark/Cyan theme, featuring history logging and seamless data export.'
+      },
+      {
+        title: 'Fast Database Integration',
+        desc: 'Connected the central server to MongoDB for instant querying, fast indexing, and real-time archiving of thousands of terms.'
+      }
+    ],
+    accentColor: 'from-cyan-600 to-blue-600',
+    glowColor: 'shadow-cyan-500/20'
   }
 ];
 
