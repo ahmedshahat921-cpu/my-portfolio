@@ -132,34 +132,6 @@ const IntroCard = () => {
 };
 
 
-// ─────────────────────────────────────────────────────────
-// 4. Profile Picture
-// ─────────────────────────────────────────────────────────
-const ProfileCard = () => (
-  <div className="h-full w-full relative overflow-hidden">
-    <img
-      src="/mine_pic.webp"
-      alt="Ahmed Shahat"
-      className="w-full h-full object-cover transition-all duration-700 scale-100 group-hover:scale-110"
-    />
-    {/* Dark overlay + vignette */}
-    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-    <div
-      className="absolute inset-0"
-      style={{ background: 'radial-gradient(circle, transparent 40%, rgba(0,0,0,0.45) 100%)' }}
-    />
-    {/* Hover: reveal gradient */}
-    <div className="absolute inset-0 bg-gradient-to-t from-blue-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-    {/* Status badge */}
-    <div className="absolute bottom-4 left-4 text-white">
-      <p className="text-[10px] uppercase tracking-widest text-white/40 mb-1" style={{ fontFamily: 'Satoshi, sans-serif' }}>Status</p>
-      <div className="flex items-center gap-2">
-        <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-        <span className="text-sm font-semibold" style={{ fontFamily: 'Satoshi, sans-serif' }}>Available</span>
-      </div>
-    </div>
-  </div>
-);
 
 // ─────────────────────────────────────────────────────────
 // 5. Video & Projects Card
@@ -189,7 +161,7 @@ const VideoCard = () => {
       {/* Blue tint overlay */}
       <div className="absolute inset-0 bg-blue-500/10 mix-blend-overlay pointer-events-none" />
       {/* Bottom gradient + project text */}
-      <div className="absolute bottom-0 inset-x-0 h-48 bg-gradient-to-t from-black/90 to-transparent flex flex-col justify-end p-5 gap-2">
+      <div className="absolute bottom-0 inset-x-0 h-36 bg-gradient-to-t from-black/90 to-transparent flex flex-col justify-end p-5 gap-1.5">
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -257,23 +229,23 @@ const MusicPlayer = () => {
     setPlaying((p) => !p);
   };
 
-  // 16 bars with 3 animation classes cycling
+  // 10 bars with 3 animation classes cycling
   const barAnimations = ['animate-music-bar-1','animate-music-bar-2','animate-music-bar-3'];
-  const bars = Array.from({ length: 16 }, (_, i) => barAnimations[i % 3]);
+  const bars = Array.from({ length: 10 }, (_, i) => barAnimations[i % 3]);
 
   return (
-    <div className="h-full flex items-center gap-5 px-6 md:px-8 relative overflow-hidden">
+    <div className="h-full flex items-center gap-4 px-5 md:px-6 relative overflow-hidden">
       {/* Blurred album-art background */}
       <div className="absolute inset-0 overflow-hidden">
         <img src="/songpic.webp" className="w-full h-full object-cover blur-3xl opacity-25 scale-150" alt="" />
       </div>
 
-      <div className="relative z-10 flex items-center gap-5 w-full">
+      <div className="relative z-10 flex items-center gap-4 w-full">
         {/* Album art + play/pause */}
         <div className="relative flex-shrink-0">
           <img
             src="/songpic.webp"
-            className={`w-16 h-16 md:w-20 md:h-20 rounded-xl shadow-2xl object-cover ${playing ? 'animate-[spin_8s_linear_infinite]' : ''}`}
+            className={`w-14 h-14 md:w-16 md:h-16 rounded-xl shadow-2xl object-cover ${playing ? 'animate-[spin_8s_linear_infinite]' : ''}`}
             alt="Album Art"
           />
           <button
@@ -282,11 +254,11 @@ const MusicPlayer = () => {
             aria-label={playing ? 'Pause' : 'Play'}
           >
             {playing ? (
-              <svg fill="white" width="22" height="22" viewBox="0 0 24 24">
+              <svg fill="white" width="18" height="18" viewBox="0 0 24 24">
                 <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
               </svg>
             ) : (
-              <svg fill="white" width="22" height="22" viewBox="0 0 24 24">
+              <svg fill="white" width="18" height="18" viewBox="0 0 24 24">
                 <path d="M8 5v14l11-7z"/>
               </svg>
             )}
@@ -295,18 +267,18 @@ const MusicPlayer = () => {
 
         {/* Song info */}
         <div className="flex-1 min-w-0">
-          <h3 className="text-lg md:text-xl font-bold text-white truncate" style={{ fontFamily: 'Syne, sans-serif' }}>
+          <h3 className="text-base md:text-lg font-bold text-white truncate" style={{ fontFamily: 'Syne, sans-serif' }}>
             Best of Me
           </h3>
-          <p className="text-white/50 text-sm truncate" style={{ fontFamily: 'Satoshi, sans-serif' }}>NEFFEX</p>
+          <p className="text-white/50 text-xs truncate" style={{ fontFamily: 'Satoshi, sans-serif' }}>NEFFEX</p>
         </div>
 
-        {/* Music bars visualiser (12–20 bars) */}
-        <div className="flex gap-[3px] items-end h-8 flex-shrink-0 pr-1">
+        {/* Music bars visualiser */}
+        <div className="flex gap-[3px] items-end h-6 flex-shrink-0 pr-1">
           {bars.map((cls, i) => (
             <div
               key={i}
-              className={`w-1 md:w-1.5 rounded-full bg-gradient-to-t from-green-500 to-emerald-300 ${playing ? cls : 'h-1'}`}
+              className={`w-1 md:w-1.2 rounded-full bg-gradient-to-t from-green-500 to-emerald-300 ${playing ? cls : 'h-1'}`}
               style={{ animationDelay: `${(i * 0.05).toFixed(2)}s` }}
             />
           ))}
@@ -315,14 +287,14 @@ const MusicPlayer = () => {
         {/* Play button (visible always, not just on hover) */}
         <button
           onClick={togglePlay}
-          className="flex-shrink-0 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 hover:border-white/30 flex items-center justify-center transition-all md:hidden"
+          className="flex-shrink-0 w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 hover:border-white/30 flex items-center justify-center transition-all md:hidden"
         >
           {playing ? (
-            <svg fill="white" width="18" height="18" viewBox="0 0 24 24">
+            <svg fill="white" width="14" height="14" viewBox="0 0 24 24">
               <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
             </svg>
           ) : (
-            <svg fill="white" width="18" height="18" viewBox="0 0 24 24">
+            <svg fill="white" width="14" height="14" viewBox="0 0 24 24">
               <path d="M8 5v14l11-7z"/>
             </svg>
           )}
@@ -386,16 +358,12 @@ const BentoGrid = () => {
         </Card>
 
         {/* Row 2 */}
-        <Card className="md:col-span-6 min-h-[120px] md:min-h-[240px]">
+        <Card className="md:col-span-5 min-h-[120px] md:min-h-[200px]">
           <MusicPlayer />
         </Card>
 
-        <Card className="md:col-span-2 min-h-[240px] md:min-h-[240px]" style={{ padding: 0 }}>
-          <ProfileCard />
-        </Card>
-
         <Card
-          className="md:col-span-4 min-h-[240px] md:min-h-[240px] cursor-pointer"
+          className="md:col-span-7 min-h-[200px] md:min-h-[200px] cursor-pointer"
           style={{ padding: 0 }}
           onClick={() => {
             if (window.lenis) {
