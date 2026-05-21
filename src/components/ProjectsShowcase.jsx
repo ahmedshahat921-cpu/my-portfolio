@@ -318,50 +318,82 @@ const ProjectsShowcase = () => {
               </button>
 
               {/* LEFT COLUMN: Screenshot Carousel (cinematic look) */}
-              <div className="w-full md:w-3/5 bg-black flex flex-col relative h-[300px] md:h-auto min-h-[300px] md:min-h-0 border-b md:border-b-0 md:border-r border-white/10 justify-between">
+              <div className="w-full md:w-3/5 bg-black flex flex-col relative h-[380px] md:h-auto min-h-[380px] md:min-h-0 border-b md:border-b-0 md:border-r border-white/10 justify-between">
                 {selectedProject.screenshots && selectedProject.screenshots.length > 0 ? (
                   <>
-                    {/* Main Image Slider */}
+                    {/* Main Image Slider Container */}
                     <div 
-                      className="relative flex-1 flex items-center justify-center overflow-hidden p-4 group/slider cursor-zoom-in"
+                      className="relative flex-1 w-full min-h-[320px] md:min-h-[400px] flex items-center justify-center overflow-hidden p-4 py-8 group/slider"
                       onMouseEnter={() => setIsHovered(true)}
                       onMouseLeave={() => setIsHovered(false)}
-                      onClick={() => setLightboxImage(selectedProject.screenshots[activeSlide])}
                     >
-                      {/* Zoom Indicator Overlay */}
-                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/slider:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none z-10">
-                        <motion.div 
-                          initial={{ scale: 0.8, opacity: 0 }}
-                          whileHover={{ scale: 1, opacity: 1 }}
-                          className="bg-black/60 backdrop-blur-md border border-white/20 px-4 py-2 rounded-full flex items-center gap-2 text-white text-xs font-semibold uppercase tracking-wider"
-                        >
-                          <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                            <circle cx="11" cy="11" r="8" />
-                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                            <line x1="11" y1="8" x2="11" y2="14" />
-                            <line x1="8" y1="11" x2="14" y2="11" />
-                          </svg>
-                          View Fullscreen
-                        </motion.div>
-                      </div>
+                      {/* Carousel cards track */}
+                      <div className="relative w-full h-full flex items-center justify-center" style={{ perspective: '1200px', transformStyle: 'preserve-3d' }}>
+                        {selectedProject.screenshots.map((shot, idx) => {
+                          const diff = idx - activeSlide;
+                          // We only render cards that are nearby to keep DOM light and layout centered
+                          if (Math.abs(diff) > 2) return null;
 
-                      <AnimatePresence initial={false} custom={direction} mode="wait">
-                        <motion.img
-                          key={activeSlide}
-                          custom={direction}
-                          variants={slideVariants}
-                          initial="enter"
-                          animate="center"
-                          exit="exit"
-                          transition={{
-                            x: { type: 'spring', stiffness: 300, damping: 30 },
-                            opacity: { duration: 0.2 }
-                          }}
-                          src={selectedProject.screenshots[activeSlide]}
-                          alt={`${selectedProject.title} slide ${activeSlide + 1}`}
-                          className="max-w-full max-h-[40vh] md:max-h-[50vh] object-contain rounded-xl shadow-2xl relative z-0"
-                        />
-                      </AnimatePresence>
+                          return (
+                            <motion.div
+                              key={idx}
+                              style={{
+                                zIndex: 10 - Math.abs(diff),
+                              }}
+                              initial={{ opacity: 0, scale: 0.6 }}
+                              animate={{
+                                x: `${diff * 60}%`,
+                                scale: diff === 0 ? 1 : 0.75,
+                                rotateY: diff * -25,
+                                opacity: diff === 0 ? 1 : 0.35,
+                              }}
+                              transition={{
+                                type: 'spring',
+                                stiffness: 260,
+                                damping: 26,
+                              }}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                if (diff !== 0) {
+                                  setDirection(diff > 0 ? 1 : -1);
+                                  setActiveSlide(idx);
+                                } else {
+                                  setLightboxImage(shot);
+                                }
+                              }}
+                              className={`absolute w-[75%] md:w-[65%] max-w-[450px] aspect-[16/10] rounded-2xl overflow-hidden border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.8)] bg-zinc-950 transition-all duration-300 ${
+                                diff === 0 ? 'cursor-zoom-in hover:border-white/30' : 'cursor-pointer hover:border-white/20 hover:opacity-60'
+                              }`}
+                            >
+                              <img 
+                                src={shot} 
+                                className="w-full h-full object-cover select-none" 
+                                alt={`${selectedProject.title} screenshot ${idx + 1}`}
+                                draggable="false"
+                              />
+
+                              {/* Zoom Indicator Overlay (Only for centered card) */}
+                              {diff === 0 && (
+                                <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none z-10">
+                                  <motion.div 
+                                    initial={{ scale: 0.8, opacity: 0 }}
+                                    animate={{ scale: 1, opacity: 1 }}
+                                    className="bg-black/60 backdrop-blur-md border border-white/20 px-4 py-2 rounded-full flex items-center gap-2 text-white text-xs font-semibold uppercase tracking-wider"
+                                  >
+                                    <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                                      <circle cx="11" cy="11" r="8" />
+                                      <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                                      <line x1="11" y1="8" x2="11" y2="14" />
+                                      <line x1="8" y1="11" x2="14" y2="11" />
+                                    </svg>
+                                    View Fullscreen
+                                  </motion.div>
+                                </div>
+                              )}
+                            </motion.div>
+                          );
+                        })}
+                      </div>
 
                       {/* Navigation Arrows */}
                       <button
