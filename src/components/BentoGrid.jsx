@@ -35,7 +35,10 @@ const Card = ({ children, className = '', style = {}, ...props }) => (
 // ─────────────────────────────────────────────────────────
 const WallpaperGallery = () => {
   const photos = [
-    '/about1.jpg', '/about2.jpg', '/about3.jpg', '/about4.jpg'
+    { src: '/about1.jpg', pos: 'object-right' },   // NTI team (Ahmed on far right)
+    { src: '/about2.jpg', pos: 'object-left' },    // Auditorium (Ahmed on far left)
+    { src: '/about3.jpg', pos: 'object-left' },    // Group certificates (Ahmed on far left)
+    { src: '/about4.jpg', pos: 'object-center' }   // Solo (Ahmed in center)
   ];
   
   // Duplicate 4 times to ensure it spans enough width for a seamless infinite scroll loop
@@ -44,11 +47,11 @@ const WallpaperGallery = () => {
   return (
     <div className="flex items-center h-full relative overflow-hidden">
       <div className="flex gap-3 animate-slide-horizontal w-max grayscale group-hover:grayscale-0 transition-all duration-700">
-        {items.map((src, i) => (
+        {items.map((item, i) => (
           <img
             key={i}
-            src={src}
-            className="h-56 md:h-72 aspect-[9/16] object-cover rounded-xl flex-shrink-0"
+            src={item.src}
+            className={`h-56 md:h-72 aspect-[3/4] object-cover ${item.pos} rounded-xl flex-shrink-0`}
             alt={`About Photo ${(i % 4) + 1}`}
           />
         ))}
