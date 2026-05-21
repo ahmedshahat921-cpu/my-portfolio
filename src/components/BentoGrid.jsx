@@ -206,14 +206,29 @@ const VideoCard = () => {
 // ─────────────────────────────────────────────────────────
 const MusicPlayer = () => {
   const [playing, setPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(163);
   const audioRef = useRef(null);
 
   useEffect(() => {
-    audioRef.current = new Audio('/NEFFEX_-_Best_of_Me_(mp3.pm).mp3');
-    audioRef.current.loop = true;
-    const audio = audioRef.current;
+    const audio = new Audio('/NEFFEX_-_Best_of_Me_(mp3.pm).mp3');
+    audio.loop = true;
+    audioRef.current = audio;
+
+    const updateTime = () => setCurrentTime(audio.currentTime);
+    const updateDuration = () => {
+      if (audio.duration && !isNaN(audio.duration)) {
+        setDuration(audio.duration);
+      }
+    };
+
+    audio.addEventListener('timeupdate', updateTime);
+    audio.addEventListener('loadedmetadata', updateDuration);
+
     return () => {
       audio.pause();
+      audio.removeEventListener('timeupdate', updateTime);
+      audio.removeEventListener('loadedmetadata', updateDuration);
       audio.src = '';
     };
   }, []);
@@ -229,76 +244,124 @@ const MusicPlayer = () => {
     setPlaying((p) => !p);
   };
 
-  // 10 bars with 3 animation classes cycling
-  const barAnimations = ['animate-music-bar-1','animate-music-bar-2','animate-music-bar-3'];
-  const bars = Array.from({ length: 10 }, (_, i) => barAnimations[i % 3]);
+  const handleSeek = (e) => {
+    const audio = audioRef.current;
+    if (!audio || !duration) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const width = rect.width;
+    const newTime = (clickX / width) * duration;
+    audio.currentTime = newTime;
+    setCurrentTime(newTime);
+  };
+
+  const formatTime = (time) => {
+    if (isNaN(time)) return '0:00';
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+  };
 
   return (
-    <div className="h-full flex items-center gap-4 px-5 md:px-6 relative overflow-hidden">
-      {/* Blurred album-art background */}
-      <div className="absolute inset-0 overflow-hidden">
-        <img src="/songpic.webp" className="w-full h-full object-cover blur-3xl opacity-25 scale-150" alt="" />
+    <div className="h-full p-4 md:p-5 flex flex-col justify-between relative overflow-hidden select-none">
+      {/* Album Art blurred background */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <img src="/songpic.webp" className="w-full h-full object-cover blur-3xl opacity-20 scale-150" alt="" />
       </div>
 
-      <div className="relative z-10 flex items-center gap-4 w-full">
-        {/* Album art + play/pause */}
-        <div className="relative flex-shrink-0">
+      {/* Top Header Row */}
+      <div className="relative z-10 flex items-center justify-between w-full">
+        <span className="inline-flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-green-400 font-bold" style={{ fontFamily: 'Satoshi, sans-serif' }}>
+          <span className={`w-1.5 h-1.5 rounded-full bg-green-400 ${playing ? 'animate-ping' : ''}`} />
+          Now Playing
+        </span>
+        <svg className="w-4 h-4 text-green-400 opacity-80" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.586 14.424c-.18.295-.565.387-.86.207-2.377-1.454-5.37-1.783-8.893-.982-.336.075-.668-.135-.745-.47-.077-.337.135-.669.47-.747 3.847-.877 7.142-.5 9.82 1.138.297.18.387.563.208.854zm1.226-2.723c-.227.367-.707.487-1.074.26-2.72-1.672-6.87-2.157-10.076-1.184-.412.125-.845-.108-.97-.52-.124-.413.109-.847.522-.972 3.667-1.11 8.243-.564 11.338 1.34.368.226.488.706.26 1.076zm.106-2.833C14.39 8.84 8.6 8.65 5.253 9.667c-.512.155-1.054-.135-1.21-.647-.155-.512.135-1.053.647-1.21 3.84-1.165 10.24-.95 14.307 1.465.46.273.61.87.337 1.33-.273.46-.87.61-1.33.337z"/>
+        </svg>
+      </div>
+
+      {/* Album Info & Controls Row */}
+      <div className="relative z-10 flex items-center gap-4 w-full my-auto">
+        <div className="relative group/album flex-shrink-0 cursor-pointer" onClick={togglePlay}>
           <img
             src="/songpic.webp"
-            className={`w-14 h-14 md:w-16 md:h-16 rounded-xl shadow-2xl object-cover ${playing ? 'animate-[spin_8s_linear_infinite]' : ''}`}
+            className={`w-11 h-11 md:w-12 md:h-12 rounded-xl shadow-2xl object-cover transition-transform duration-500 group-hover/album:scale-105 ${playing ? 'animate-[spin_10s_linear_infinite]' : ''}`}
             alt="Album Art"
           />
-          <button
-            onClick={togglePlay}
-            className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-xl opacity-0 group-hover:opacity-100 hover:opacity-100 transition-opacity"
-            aria-label={playing ? 'Pause' : 'Play'}
+          <div
+            className="absolute inset-0 flex items-center justify-center bg-black/60 rounded-xl opacity-0 group-hover/album:opacity-100 transition-opacity"
           >
             {playing ? (
-              <svg fill="white" width="18" height="18" viewBox="0 0 24 24">
+              <svg fill="white" width="14" height="14" viewBox="0 0 24 24">
                 <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
               </svg>
             ) : (
-              <svg fill="white" width="18" height="18" viewBox="0 0 24 24">
+              <svg fill="white" width="14" height="14" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z"/>
+              </svg>
+            )}
+          </div>
+        </div>
+
+        <div className="flex-1 min-w-0">
+          <h3 className="text-xs md:text-sm font-bold text-white truncate" style={{ fontFamily: 'Syne, sans-serif' }}>
+            Best of Me
+          </h3>
+          <p className="text-white/50 text-[10px] truncate" style={{ fontFamily: 'Satoshi, sans-serif' }}>NEFFEX</p>
+        </div>
+
+        {/* Player Action Buttons (Play/Pause, Prev, Next) */}
+        <div className="flex items-center gap-2">
+          {/* Dummy Prev Button */}
+          <button className="text-white/40 hover:text-white transition-colors" aria-label="Previous">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M6 6h2v12H6V6zm3.5 6l8.5 6V6l-8.5 6z"/>
+            </svg>
+          </button>
+          
+          <button
+            onClick={togglePlay}
+            className="w-7 h-7 rounded-full bg-white text-black flex items-center justify-center hover:scale-105 active:scale-95 transition-transform"
+            aria-label={playing ? 'Pause' : 'Play'}
+          >
+            {playing ? (
+              <svg fill="currentColor" width="10" height="10" viewBox="0 0 24 24">
+                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+              </svg>
+            ) : (
+              <svg fill="currentColor" width="10" height="10" viewBox="0 0 24 24" className="ml-0.5">
                 <path d="M8 5v14l11-7z"/>
               </svg>
             )}
           </button>
-        </div>
 
-        {/* Song info */}
-        <div className="flex-1 min-w-0">
-          <h3 className="text-base md:text-lg font-bold text-white truncate" style={{ fontFamily: 'Syne, sans-serif' }}>
-            Best of Me
-          </h3>
-          <p className="text-white/50 text-xs truncate" style={{ fontFamily: 'Satoshi, sans-serif' }}>NEFFEX</p>
+          {/* Dummy Next Button */}
+          <button className="text-white/40 hover:text-white transition-colors" aria-label="Next">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
+            </svg>
+          </button>
         </div>
+      </div>
 
-        {/* Music bars visualiser */}
-        <div className="flex gap-[3px] items-end h-6 flex-shrink-0 pr-1">
-          {bars.map((cls, i) => (
-            <div
-              key={i}
-              className={`w-1 md:w-1.2 rounded-full bg-gradient-to-t from-green-500 to-emerald-300 ${playing ? cls : 'h-1'}`}
-              style={{ animationDelay: `${(i * 0.05).toFixed(2)}s` }}
-            />
-          ))}
-        </div>
-
-        {/* Play button (visible always, not just on hover) */}
-        <button
-          onClick={togglePlay}
-          className="flex-shrink-0 w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 hover:border-white/30 flex items-center justify-center transition-all md:hidden"
+      {/* Progress Slider & Timeline */}
+      <div className="relative z-10 w-full mt-1.5">
+        <div 
+          onClick={handleSeek}
+          className="w-full h-1 bg-white/10 rounded-full cursor-pointer relative group/track overflow-hidden"
         >
-          {playing ? (
-            <svg fill="white" width="14" height="14" viewBox="0 0 24 24">
-              <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
-            </svg>
-          ) : (
-            <svg fill="white" width="14" height="14" viewBox="0 0 24 24">
-              <path d="M8 5v14l11-7z"/>
-            </svg>
-          )}
-        </button>
+          <div 
+            className="h-full bg-green-400 rounded-full transition-all duration-100 relative"
+            style={{ width: `${(currentTime / duration) * 100}%` }}
+          >
+            {/* Hover Glow on Progress */}
+            <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-white opacity-0 group-hover/track:opacity-100 transition-opacity" />
+          </div>
+        </div>
+        <div className="flex justify-between items-center mt-1 text-[9px] text-white/45 font-medium" style={{ fontFamily: 'Satoshi, sans-serif' }}>
+          <span>{formatTime(currentTime)}</span>
+          <span>{formatTime(duration)}</span>
+        </div>
       </div>
     </div>
   );
@@ -358,12 +421,12 @@ const BentoGrid = () => {
         </Card>
 
         {/* Row 2 */}
-        <Card className="md:col-span-5 min-h-[120px] md:min-h-[200px]">
+        <Card className="md:col-span-5 min-h-[120px] md:min-h-[150px]">
           <MusicPlayer />
         </Card>
 
         <Card
-          className="md:col-span-7 min-h-[200px] md:min-h-[200px] cursor-pointer"
+          className="md:col-span-7 min-h-[150px] md:min-h-[150px] cursor-pointer"
           style={{ padding: 0 }}
           onClick={() => {
             if (window.lenis) {
