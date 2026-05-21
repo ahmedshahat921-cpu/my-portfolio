@@ -197,13 +197,6 @@ const Hero = () => {
 
             {/* Bottom-right: description + scroll indicator + CV */}
             <div className="max-w-xs md:max-w-sm flex flex-col gap-5">
-              <p
-                className="text-base md:text-lg text-white/60 leading-relaxed"
-                style={{ fontFamily: 'Satoshi, sans-serif' }}
-              >
-                Web Developer with 2+ years of experience building responsive web
-                applications and backend systems.
-              </p>
 
               {/* Scroll indicator */}
               <div className="opacity-50">

@@ -78,17 +78,18 @@ const IntroCard = () => {
   return (
     <div className="p-7 md:p-10 flex flex-col justify-between h-full">
       <div>
+        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold uppercase tracking-widest text-white/50 mb-4" style={{ fontFamily: 'Satoshi, sans-serif' }}>
+          <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
+          About Me
+        </span>
         <h2
           className="text-3xl md:text-4xl font-bold mb-4 text-white"
           style={{ fontFamily: 'Syne, sans-serif' }}
         >
           Hi, I'm Ahmed Shahat
         </h2>
-        <p className="text-white/60 text-base md:text-lg leading-relaxed max-w-lg" style={{ fontFamily: 'Satoshi, sans-serif' }}>
-          I am a Web Developer with 2+ years of experience building responsive web applications
-          and backend systems. Proficient in HTML, CSS, JavaScript, and Java with expertise in
-          OOP design patterns. Successfully delivered 10+ projects including mobile apps and
-          scalable backend solutions.
+        <p className="text-white/70 text-base md:text-lg leading-relaxed max-w-2xl" style={{ fontFamily: 'Satoshi, sans-serif' }}>
+          I am a <span className="text-white font-semibold">Web Developer</span> dedicated to building seamless, interactive responsive web applications. While my core expertise lies in crafting modern frontend experiences with <span className="text-blue-400 font-semibold">React.js</span> and <span className="text-sky-400 font-semibold">Tailwind CSS</span>, my capabilities extend deeply into robust <span className="text-indigo-400 font-semibold">backend engineering</span> and relational database systems. I focus on turning complex business logic into clean, efficient, and beautifully structured code.
         </p>
       </div>
 
