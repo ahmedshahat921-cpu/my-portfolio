@@ -84,21 +84,12 @@ const ProjectsShowcase = () => {
   const [selectedProject, setSelectedProject] = useState(null);
   const [activeSlide, setActiveSlide] = useState(0);
   const [direction, setDirection] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+  const [lightboxImage, setLightboxImage] = useState(null);
 
-  // Close modal on escape key
+  // Lock/unlock body scroll when modal or lightbox is open
   useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === 'Escape') {
-        setSelectedProject(null);
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
-
-  // Lock/unlock body scroll when modal is open
-  useEffect(() => {
-    if (selectedProject) {
+    if (selectedProject || lightboxImage) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
@@ -106,7 +97,7 @@ const ProjectsShowcase = () => {
     return () => {
       document.body.style.overflow = '';
     };
-  }, [selectedProject]);
+  }, [selectedProject, lightboxImage]);
 
   const slideVariants = {
     enter: (dir) => ({
@@ -132,6 +123,61 @@ const ProjectsShowcase = () => {
     setDirection(-1);
     setActiveSlide((prev) => (prev - 1 + screenshots.length) % screenshots.length);
   };
+
+  const handleNextLightbox = () => {
+    if (!selectedProject || !selectedProject.screenshots) return;
+    const nextIdx = (activeSlide + 1) % selectedProject.screenshots.length;
+    setDirection(1);
+    setActiveSlide(nextIdx);
+    setLightboxImage(selectedProject.screenshots[nextIdx]);
+  };
+
+  const handlePrevLightbox = () => {
+    if (!selectedProject || !selectedProject.screenshots) return;
+    const prevIdx = (activeSlide - 1 + selectedProject.screenshots.length) % selectedProject.screenshots.length;
+    setDirection(-1);
+    setActiveSlide(prevIdx);
+    setLightboxImage(selectedProject.screenshots[prevIdx]);
+  };
+
+  // Keyboard navigation & Close handlers
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        if (lightboxImage) {
+          setLightboxImage(null);
+        } else {
+          setSelectedProject(null);
+        }
+      } else if (e.key === 'ArrowRight' && selectedProject) {
+        if (lightboxImage) {
+          handleNextLightbox();
+        } else {
+          handleNextSlide(selectedProject.screenshots);
+        }
+      } else if (e.key === 'ArrowLeft' && selectedProject) {
+        if (lightboxImage) {
+          handlePrevLightbox();
+        } else {
+          handlePrevSlide(selectedProject.screenshots);
+        }
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedProject, activeSlide, lightboxImage]);
+
+  // Autoplay Slideshow
+  useEffect(() => {
+    if (!selectedProject || isHovered || lightboxImage || !selectedProject.screenshots || selectedProject.screenshots.length <= 1) return;
+
+    const timer = setInterval(() => {
+      handleNextSlide(selectedProject.screenshots);
+    }, 3500);
+
+    return () => clearInterval(timer);
+  }, [selectedProject, isHovered, lightboxImage, activeSlide]);
 
   return (
     <section id="projects" className="bg-black py-16 md:py-24 px-4 md:px-8 lg:px-12 relative z-20 overflow-hidden">
@@ -174,6 +220,8 @@ const ProjectsShowcase = () => {
                 if (!project.isPlaceholder) {
                   setSelectedProject(project);
                   setActiveSlide(0);
+                  setIsHovered(false);
+                  setLightboxImage(null);
                 }
               }}
               className={`group relative overflow-hidden rounded-3xl bg-white/5 border border-white/10 ${
@@ -255,6 +303,7 @@ const ProjectsShowcase = () => {
               transition={{ type: 'spring', damping: 25, stiffness: 220 }}
               className="bg-zinc-950 border border-white/10 w-full max-w-6xl rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row max-h-[90vh] md:max-h-[85vh] relative"
               onClick={(e) => e.stopPropagation()}
+              data-lenis-prevent
             >
               {/* Close Button */}
               <button
@@ -273,7 +322,29 @@ const ProjectsShowcase = () => {
                 {selectedProject.screenshots && selectedProject.screenshots.length > 0 ? (
                   <>
                     {/* Main Image Slider */}
-                    <div className="relative flex-1 flex items-center justify-center overflow-hidden p-4 group/slider">
+                    <div 
+                      className="relative flex-1 flex items-center justify-center overflow-hidden p-4 group/slider cursor-zoom-in"
+                      onMouseEnter={() => setIsHovered(true)}
+                      onMouseLeave={() => setIsHovered(false)}
+                      onClick={() => setLightboxImage(selectedProject.screenshots[activeSlide])}
+                    >
+                      {/* Zoom Indicator Overlay */}
+                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/slider:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none z-10">
+                        <motion.div 
+                          initial={{ scale: 0.8, opacity: 0 }}
+                          whileHover={{ scale: 1, opacity: 1 }}
+                          className="bg-black/60 backdrop-blur-md border border-white/20 px-4 py-2 rounded-full flex items-center gap-2 text-white text-xs font-semibold uppercase tracking-wider"
+                        >
+                          <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                            <circle cx="11" cy="11" r="8" />
+                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                            <line x1="11" y1="8" x2="11" y2="14" />
+                            <line x1="8" y1="11" x2="14" y2="11" />
+                          </svg>
+                          View Fullscreen
+                        </motion.div>
+                      </div>
+
                       <AnimatePresence initial={false} custom={direction} mode="wait">
                         <motion.img
                           key={activeSlide}
@@ -288,14 +359,17 @@ const ProjectsShowcase = () => {
                           }}
                           src={selectedProject.screenshots[activeSlide]}
                           alt={`${selectedProject.title} slide ${activeSlide + 1}`}
-                          className="max-w-full max-h-[40vh] md:max-h-[50vh] object-contain rounded-xl shadow-2xl"
+                          className="max-w-full max-h-[40vh] md:max-h-[50vh] object-contain rounded-xl shadow-2xl relative z-0"
                         />
                       </AnimatePresence>
 
                       {/* Navigation Arrows */}
                       <button
-                        onClick={() => handlePrevSlide(selectedProject.screenshots)}
-                        className="absolute left-4 bg-zinc-900/80 hover:bg-white text-white hover:text-black w-10 h-10 rounded-full flex items-center justify-center border border-white/10 transition-all opacity-0 group-hover/slider:opacity-100 focus:opacity-100"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handlePrevSlide(selectedProject.screenshots);
+                        }}
+                        className="absolute left-4 bg-zinc-900/80 hover:bg-white text-white hover:text-black w-10 h-10 rounded-full flex items-center justify-center border border-white/10 transition-all opacity-0 group-hover/slider:opacity-100 focus:opacity-100 z-20"
                         aria-label="Previous screenshot"
                       >
                         <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -303,8 +377,11 @@ const ProjectsShowcase = () => {
                         </svg>
                       </button>
                       <button
-                        onClick={() => handleNextSlide(selectedProject.screenshots)}
-                        className="absolute right-4 bg-zinc-900/80 hover:bg-white text-white hover:text-black w-10 h-10 rounded-full flex items-center justify-center border border-white/10 transition-all opacity-0 group-hover/slider:opacity-100 focus:opacity-100"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleNextSlide(selectedProject.screenshots);
+                        }}
+                        className="absolute right-4 bg-zinc-900/80 hover:bg-white text-white hover:text-black w-10 h-10 rounded-full flex items-center justify-center border border-white/10 transition-all opacity-0 group-hover/slider:opacity-100 focus:opacity-100 z-20"
                         aria-label="Next screenshot"
                       >
                         <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -426,6 +503,84 @@ const ProjectsShowcase = () => {
                 </div>
               </div>
             </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Lightbox Overlay */}
+      <AnimatePresence>
+        {lightboxImage && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setLightboxImage(null)}
+            className="fixed inset-0 z-[60] flex items-center justify-center bg-black/95 backdrop-blur-2xl p-4 md:p-12 cursor-zoom-out"
+          >
+            {/* Close Button */}
+            <button
+              onClick={() => setLightboxImage(null)}
+              className="absolute top-6 right-6 z-50 bg-white/10 hover:bg-white text-white hover:text-black w-12 h-12 rounded-full flex items-center justify-center border border-white/10 hover:border-white transition-colors duration-300 focus:outline-none"
+              aria-label="Close fullscreen"
+            >
+              <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+
+            {/* Navigation Arrows */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handlePrevLightbox();
+              }}
+              className="absolute left-6 z-50 bg-white/5 hover:bg-white text-white hover:text-black w-12 h-12 rounded-full flex items-center justify-center border border-white/10 transition-colors duration-300 focus:outline-none"
+              aria-label="Previous image"
+            >
+              <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+            </button>
+
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handleNextLightbox();
+              }}
+              className="absolute right-6 z-50 bg-white/5 hover:bg-white text-white hover:text-black w-12 h-12 rounded-full flex items-center justify-center border border-white/10 transition-colors duration-300 focus:outline-none"
+              aria-label="Next image"
+            >
+              <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </button>
+
+            {/* Lightbox Content Container */}
+            <div className="relative max-w-7xl max-h-[85vh] flex flex-col items-center" onClick={(e) => e.stopPropagation()}>
+              <AnimatePresence initial={false} custom={direction} mode="wait">
+                <motion.img
+                  key={activeSlide}
+                  custom={direction}
+                  variants={slideVariants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  transition={{
+                    x: { type: 'spring', stiffness: 250, damping: 25 },
+                    opacity: { duration: 0.15 }
+                  }}
+                  src={lightboxImage}
+                  alt="High Resolution Screenshot"
+                  className="max-w-full max-h-[80vh] object-contain rounded-2xl shadow-[0_0_50px_rgba(255,255,255,0.1)] border border-white/10 cursor-default"
+                />
+              </AnimatePresence>
+
+              {/* Caption or Slide indicator */}
+              <div className="mt-4 text-white/50 text-xs font-semibold tracking-wider font-satoshi bg-white/5 border border-white/10 px-3 py-1.5 rounded-full select-none">
+                {activeSlide + 1} / {selectedProject.screenshots.length}
+              </div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
