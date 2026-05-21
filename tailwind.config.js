@@ -8,7 +8,7 @@ export default {
         satoshi: ['Satoshi', 'sans-serif'],
       },
       animation: {
-        'slide-horizontal': 'slide-horizontal 30s linear infinite',
+        'slide-horizontal': 'slide-horizontal 10s linear infinite',
         'marquee':          'marquee 20s linear infinite',
         'music-bar-1':      'music-bar-1 0.6s ease-in-out infinite',
         'music-bar-2':      'music-bar-2 0.7s ease-in-out infinite',

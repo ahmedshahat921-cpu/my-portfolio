@@ -9,7 +9,7 @@
   100% { transform: translateX(-50%); }
 }
 .animate-slide-horizontal {
-  animation: slide-horizontal 20s linear infinite;
+  animation: slide-horizontal 10s linear infinite;
 }
 
 @keyframes marquee {
