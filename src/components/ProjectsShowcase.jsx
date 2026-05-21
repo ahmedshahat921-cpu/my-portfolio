@@ -84,7 +84,6 @@ const ProjectsShowcase = () => {
   const [selectedProject, setSelectedProject] = useState(null);
   const [activeSlide, setActiveSlide] = useState(0);
   const [direction, setDirection] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
   const [lightboxImage, setLightboxImage] = useState(null);
 
   // Lock/unlock body scroll when modal or lightbox is open
@@ -170,14 +169,14 @@ const ProjectsShowcase = () => {
 
   // Autoplay Slideshow
   useEffect(() => {
-    if (!selectedProject || isHovered || lightboxImage || !selectedProject.screenshots || selectedProject.screenshots.length <= 1) return;
+    if (!selectedProject || lightboxImage || !selectedProject.screenshots || selectedProject.screenshots.length <= 1) return;
 
     const timer = setInterval(() => {
       handleNextSlide(selectedProject.screenshots);
-    }, 3500);
+    }, 3000); // 3 seconds per slide is a perfect speed for auto-play
 
     return () => clearInterval(timer);
-  }, [selectedProject, isHovered, lightboxImage, activeSlide]);
+  }, [selectedProject, lightboxImage, activeSlide]);
 
   return (
     <section id="projects" className="bg-black py-16 md:py-24 px-4 md:px-8 lg:px-12 relative z-20 overflow-hidden">
@@ -220,7 +219,6 @@ const ProjectsShowcase = () => {
                 if (!project.isPlaceholder) {
                   setSelectedProject(project);
                   setActiveSlide(0);
-                  setIsHovered(false);
                   setLightboxImage(null);
                 }
               }}
@@ -324,8 +322,6 @@ const ProjectsShowcase = () => {
                     {/* Main Image Slider Container */}
                     <div 
                       className="relative flex-1 w-full min-h-[320px] md:min-h-[400px] flex items-center justify-center overflow-hidden p-4 py-8 group/slider"
-                      onMouseEnter={() => setIsHovered(true)}
-                      onMouseLeave={() => setIsHovered(false)}
                     >
                       {/* Carousel cards track */}
                       <div className="relative w-full h-full flex items-center justify-center" style={{ perspective: '1200px', transformStyle: 'preserve-3d' }}>
