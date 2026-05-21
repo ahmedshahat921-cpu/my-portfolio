@@ -270,15 +270,87 @@ const ProjectsShowcase = () => {
           </motion.h2>
         </div>
 
+        {/* Featured Project */}
+        {projectsData[0] && (
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            onClick={() => {
+              setSelectedProject(projectsData[0]);
+              setActiveSlide(0);
+              setLightboxImage(null);
+            }}
+            className={`group relative overflow-hidden rounded-[32px] bg-white/5 border border-white/10 cursor-pointer hover:border-white/20 transition-all duration-500 flex flex-col lg:flex-row h-auto lg:h-[460px] shadow-xl hover:${projectsData[0].glowColor} mb-12`}
+          >
+            {/* Cover Image Wrapper */}
+            <div className="w-full lg:w-3/5 h-64 lg:h-full overflow-hidden relative">
+              <img
+                src={projectsData[0].coverImage}
+                alt={projectsData[0].title}
+                className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-r from-black via-black/20 to-transparent opacity-80" />
+              <div className={`absolute inset-0 bg-gradient-to-br ${projectsData[0].accentColor} opacity-0 group-hover:opacity-20 transition-opacity duration-700`} />
+              
+              {/* Featured Badge */}
+              <div className="absolute top-6 left-6 z-10 bg-white/10 backdrop-blur-md border border-white/20 px-3.5 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 bg-violet-400 rounded-full animate-ping" />
+                Featured Project
+              </div>
+            </div>
+
+            {/* Text / Metadata */}
+            <div className="w-full lg:w-2/5 p-8 md:p-10 flex flex-col justify-between relative z-10">
+              <div>
+                <span className="text-[10px] font-bold tracking-widest uppercase text-white/40 mb-3 block font-satoshi">
+                  {projectsData[0].category}
+                </span>
+                <h3 className="text-2xl md:text-3xl font-bold text-white mb-4 font-syne group-hover:text-violet-400 transition-colors">
+                  {projectsData[0].title}
+                </h3>
+                <p className="text-white/60 text-sm leading-relaxed mb-6 font-satoshi">
+                  {projectsData[0].shortDesc}
+                </p>
+              </div>
+
+              {/* Footer of the card */}
+              <div className="flex justify-between items-center mt-auto pt-6 border-t border-white/5">
+                {/* Tech stack names */}
+                <div className="flex gap-1.5 flex-wrap">
+                  {projectsData[0].techStack.slice(0, 4).map((tech) => (
+                    <span key={tech} className="text-[9px] uppercase font-semibold text-white/40 bg-white/5 px-2.5 py-1 rounded-full border border-white/5">
+                      {tech}
+                    </span>
+                  ))}
+                  {projectsData[0].techStack.length > 4 && (
+                    <span className="text-[9px] uppercase font-semibold text-white/30 bg-white/5 px-2.5 py-1 rounded-full border border-white/5">
+                      +{projectsData[0].techStack.length - 4}
+                    </span>
+                  )}
+                </div>
+
+                <span className="w-10 h-10 rounded-full bg-white/5 border border-white/10 group-hover:bg-white group-hover:text-black flex items-center justify-center text-white/70 transition-all duration-300 transform group-hover:translate-x-1 flex-shrink-0">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                    <polyline points="12 5 19 12 12 19" />
+                  </svg>
+                </span>
+              </div>
+            </div>
+          </motion.div>
+        )}
+
         {/* Project Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-          {projectsData.map((project, idx) => (
+          {projectsData.slice(1).map((project, idx) => (
             <motion.div
               key={project.id}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: idx * 0.1 }}
+              transition={{ duration: 0.6, delay: (idx + 1) * 0.1 }}
               onClick={() => {
                 if (!project.isPlaceholder) {
                   setSelectedProject(project);
