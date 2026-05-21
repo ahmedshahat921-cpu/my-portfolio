@@ -280,29 +280,59 @@ const skillsData = [
   }
 ];
 
-const categories = [
-  { id: 'all', label: 'All Skills' },
-  { id: 'web', label: 'Web Dev' },
-  { id: 'languages', label: 'Languages & DSA' },
-  { id: 'tools', label: 'Tools & Systems' }
-];
-
 const SkillsShowcase = () => {
-  const [activeCategory, setActiveCategory] = useState('all');
+  const webSkills = skillsData.filter((s) => s.category === 'web');
+  const langSkills = skillsData.filter((s) => s.category === 'languages');
+  const toolSkills = skillsData.filter((s) => s.category === 'tools');
 
-  const filteredSkills = activeCategory === 'all'
-    ? skillsData
-    : skillsData.filter(s => s.category === activeCategory);
+  // Helper to ensure enough duplication for continuous loop
+  const duplicate = (arr) => {
+    if (arr.length < 8) {
+      return [...arr, ...arr, ...arr, ...arr, ...arr, ...arr];
+    }
+    return [...arr, ...arr, ...arr, ...arr];
+  };
+
+  const renderMarqueeRow = (skills, direction = 'left') => {
+    const animatedClass = direction === 'left' ? 'animate-marquee' : 'animate-marquee-reverse';
+    const items = duplicate(skills);
+    return (
+      <div className="relative w-full overflow-hidden flex items-center py-2 md:py-3">
+        <div className={`flex items-center ${animatedClass} whitespace-nowrap hover:[animation-play-state:paused]`}>
+          {items.map((skill, idx) => (
+            <div
+              key={idx}
+              className="inline-flex items-center gap-4 bg-white/5 border border-white/10 rounded-2xl px-6 py-3.5 hover:border-white/20 hover:bg-white/10 transition-all duration-300 backdrop-blur-md shadow-lg group select-none cursor-default mx-3 relative overflow-hidden min-w-[220px]"
+            >
+              {/* Custom hover glow */}
+              <div className={`absolute -right-6 -top-6 w-16 h-16 rounded-full bg-gradient-to-br ${skill.glow} blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none`} />
+              
+              <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/70 group-hover:text-white group-hover:bg-white/10 group-hover:scale-110 transition-all duration-500 flex-shrink-0 relative z-10">
+                {skill.icon}
+              </div>
+              <div className="text-left relative z-10">
+                <span className="text-[9px] uppercase font-bold tracking-widest text-white/40 block font-satoshi">
+                  {skill.level}
+                </span>
+                <span className="text-sm font-bold text-white font-syne group-hover:text-white transition-colors font-semibold">
+                  {skill.name}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
 
   return (
-    <section id="skills" className="bg-black py-16 md:py-24 px-4 md:px-8 lg:px-12 relative z-20 overflow-hidden">
+    <section id="skills" className="bg-black py-20 px-4 relative z-20 overflow-hidden border-b border-white/10">
       {/* Decorative ambient background glows */}
-      <div className="absolute top-1/4 left-1/10 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/10 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-indigo-500/5 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto relative z-10">
         {/* Header */}
-        <div className="text-center mb-12 md:mb-16">
+        <div className="text-center mb-12">
           <motion.p
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 0.5, y: 0 }}
@@ -323,92 +353,21 @@ const SkillsShowcase = () => {
           </motion.h2>
         </div>
 
-        {/* Categories Tab Selector */}
-        <div className="flex justify-center mb-12">
-          <div className="flex bg-white/5 backdrop-blur-md p-1.5 rounded-full border border-white/10 overflow-x-auto no-scrollbar max-w-full">
-            {categories.map((cat) => (
-              <button
-                key={cat.id}
-                onClick={() => setActiveCategory(cat.id)}
-                className={`relative px-5 py-2.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-colors duration-300 font-satoshi whitespace-nowrap ${
-                  activeCategory === cat.id ? 'text-black z-10 font-bold' : 'text-white/60 hover:text-white'
-                }`}
-              >
-                {activeCategory === cat.id && (
-                  <motion.div
-                    layoutId="activeSkillTab"
-                    className="absolute inset-0 bg-white rounded-full -z-10"
-                    transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                  />
-                )}
-                {cat.label}
-              </button>
-            ))}
-          </div>
+        {/* Interactive Marquees Container */}
+        <div className="relative space-y-4 md:space-y-6 mt-8">
+          {/* Gradient Fade Overlays */}
+          <div className="absolute left-0 top-0 bottom-0 w-20 md:w-32 bg-gradient-to-r from-black via-black/75 to-transparent pointer-events-none z-10" />
+          <div className="absolute right-0 top-0 bottom-0 w-20 md:w-32 bg-gradient-to-l from-black via-black/75 to-transparent pointer-events-none z-10" />
+
+          {/* Row 1: Web Dev (Left) */}
+          {renderMarqueeRow(webSkills, 'left')}
+
+          {/* Row 2: Languages & DSA (Right) */}
+          {renderMarqueeRow(langSkills, 'right')}
+
+          {/* Row 3: Tools & Systems (Left) */}
+          {renderMarqueeRow(toolSkills, 'left')}
         </div>
-
-        {/* Skills Grid */}
-        <motion.div 
-          layout
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
-        >
-          <AnimatePresence mode="popLayout">
-            {filteredSkills.map((skill) => (
-              <motion.div
-                layout
-                key={skill.name}
-                initial={{ opacity: 0, scale: 0.95, y: 20 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95, y: 10 }}
-                transition={{ duration: 0.4 }}
-                className="relative overflow-hidden rounded-3xl bg-white/5 backdrop-blur-md border border-white/10 p-6 md:p-8 hover:border-white/20 transition-all duration-500 flex flex-col group hover:shadow-lg hover:shadow-white/5"
-              >
-                {/* Custom Gradient Background Glow on Hover */}
-                <div className={`absolute -right-16 -top-16 w-36 h-36 rounded-full bg-gradient-to-br ${skill.glow} blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none`} />
-                <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-0" />
-
-                <div className="relative z-10 flex flex-col h-full justify-between">
-                  {/* Top Row: Icon + Level Badge */}
-                  <div className="flex justify-between items-center mb-5">
-                    <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-white/80 group-hover:text-white group-hover:bg-white/10 group-hover:scale-110 transition-all duration-500">
-                      {skill.icon}
-                    </div>
-                    <span className="text-[10px] uppercase font-bold tracking-widest text-white/40 group-hover:text-white/60 bg-white/5 px-2.5 py-1.5 rounded-full border border-white/5 transition-colors">
-                      {skill.level}
-                    </span>
-                  </div>
-
-                  {/* Title & Desc */}
-                  <div>
-                    <h3 className="text-lg font-bold text-white mb-2 font-syne group-hover:text-white transition-colors">
-                      {skill.name}
-                    </h3>
-                    <p className="text-white/50 text-sm leading-relaxed mb-6 font-satoshi">
-                      {skill.desc}
-                    </p>
-                  </div>
-
-                  {/* Progress Bar */}
-                  <div className="mt-auto">
-                    <div className="flex justify-between items-center text-[10px] font-bold tracking-wider text-white/30 uppercase mb-2">
-                      <span>Proficiency</span>
-                      <span className="group-hover:text-white transition-colors">{skill.pct}%</span>
-                    </div>
-                    <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden border border-white/5">
-                      <motion.div
-                        initial={{ width: 0 }}
-                        whileInView={{ width: `${skill.pct}%` }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 1, ease: 'easeOut', delay: 0.1 }}
-                        className="h-full bg-gradient-to-r from-neutral-400 to-white rounded-full group-hover:from-white group-hover:to-white shadow-[0_0_8px_rgba(255,255,255,0.5)] transition-all duration-500"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </motion.div>
       </div>
     </section>
   );
