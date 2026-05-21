@@ -131,62 +131,6 @@ const IntroCard = () => {
   );
 };
 
-// ─────────────────────────────────────────────────────────
-// 3. Tools Marquee  (skills from build.txt)
-// ─────────────────────────────────────────────────────────
-const ToolsMarquee = () => {
-  const logoTools = [
-    { name: 'Framer',      src: '/framer_logo_icon_169149.webp' },
-    { name: 'Spline',      src: '/spline_logo.webp' },
-    { name: 'Ollama',      src: '/ollama-icon.webp',  invert: true },
-    { name: 'Groq',        src: '/groq_logo.webp' },
-    { name: 'Antigravity', src: '/antigravity.webp' },
-  ];
-
-  // Text-based skill badges
-  const skills = [
-    'HTML5', 'CSS3', 'JavaScript (ES6+)', 'React', 'Tailwind CSS',
-    'Bootstrap', 'Figma', 'Java (OOP)', 'PHP', 'Python',
-    'C/C++', 'Git', 'GitHub', 'MySQL', 'Vercel', 'Netlify',
-  ];
-
-  // Interleave logos and skill text, then duplicate for seamless loop
-  const items = [
-    ...logoTools.map((t) => ({ type: 'logo', ...t })),
-    ...skills.map((s) => ({ type: 'text', name: s })),
-    ...logoTools.map((t) => ({ type: 'logo', ...t })),
-    ...skills.map((s) => ({ type: 'text', name: s })),
-  ];
-
-  return (
-    <div className="flex items-center h-full relative overflow-hidden">
-      <div className="flex gap-6 md:gap-10 items-center animate-marquee whitespace-nowrap py-2">
-        {items.map((item, i) =>
-          item.type === 'logo' ? (
-            <div key={i} className="flex flex-col items-center gap-1.5 opacity-70 hover:opacity-100 transition-opacity flex-shrink-0">
-              <img
-                src={item.src}
-                alt={item.name}
-                className={`h-8 w-8 md:h-10 md:w-10 object-contain ${item.invert ? 'invert' : ''}`}
-              />
-              <span className="text-[9px] md:text-[10px] uppercase tracking-wider text-white/50" style={{ fontFamily: 'Satoshi, sans-serif' }}>
-                {item.name}
-              </span>
-            </div>
-          ) : (
-            <span
-              key={i}
-              className="text-xs md:text-sm text-white/50 hover:text-white/90 transition-colors px-3 py-1 rounded-full border border-white/10 hover:border-white/30 flex-shrink-0"
-              style={{ fontFamily: 'Satoshi, sans-serif' }}
-            >
-              {item.name}
-            </span>
-          )
-        )}
-      </div>
-    </div>
-  );
-};
 
 // ─────────────────────────────────────────────────────────
 // 4. Profile Picture
@@ -432,26 +376,26 @@ const BentoGrid = () => {
       */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-5">
 
-        {/* Row 1–2 */}
-        <Card className="md:col-span-5 md:row-span-2 min-h-[300px] md:min-h-0" style={{ height: 'auto' }}>
+        {/* Row 1 */}
+        <Card className="md:col-span-5 min-h-[300px] md:min-h-[360px]" style={{ height: 'auto' }}>
           <WallpaperGallery />
         </Card>
 
-        <Card id="contact" className="md:col-span-7 md:row-span-2 min-h-[320px] md:min-h-0">
+        <Card id="contact" className="md:col-span-7 min-h-[320px] md:min-h-[360px]">
           <IntroCard />
         </Card>
 
-        {/* Row 3–4 (Profile & Video span 2 rows) */}
-        <Card className="md:col-span-6 min-h-[100px] md:min-h-0" style={{ minHeight: '90px' }}>
-          <ToolsMarquee />
+        {/* Row 2 */}
+        <Card className="md:col-span-6 min-h-[120px] md:min-h-[240px]">
+          <MusicPlayer />
         </Card>
 
-        <Card className="md:col-span-2 md:row-span-2 min-h-[260px] md:min-h-0" style={{ padding: 0 }}>
+        <Card className="md:col-span-2 min-h-[240px] md:min-h-[240px]" style={{ padding: 0 }}>
           <ProfileCard />
         </Card>
 
         <Card
-          className="md:col-span-4 md:row-span-2 min-h-[280px] md:min-h-0 cursor-pointer"
+          className="md:col-span-4 min-h-[240px] md:min-h-[240px] cursor-pointer"
           style={{ padding: 0 }}
           onClick={() => {
             if (window.lenis) {
@@ -463,11 +407,6 @@ const BentoGrid = () => {
           }}
         >
           <VideoCard />
-        </Card>
-
-        {/* Row 4 */}
-        <Card className="md:col-span-6 min-h-[100px] md:min-h-0" style={{ minHeight: '90px' }}>
-          <MusicPlayer />
         </Card>
 
       </div>
