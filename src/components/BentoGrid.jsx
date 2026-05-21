@@ -9,7 +9,7 @@ gsap.registerPlugin(ScrollTrigger);
 // ─────────────────────────────────────────────────────────
 // Shared Card wrapper
 // ─────────────────────────────────────────────────────────
-const Card = ({ children, className = '', style = {} }) => (
+const Card = ({ children, className = '', style = {}, ...props }) => (
   <div
     className={`
       bento-card
@@ -20,6 +20,7 @@ const Card = ({ children, className = '', style = {} }) => (
       ${className}
     `}
     style={style}
+    {...props}
   >
     {/* Subtle hover shimmer */}
     <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-0" />
@@ -445,7 +446,18 @@ const BentoGrid = () => {
           <ProfileCard />
         </Card>
 
-        <Card id="projects" className="md:col-span-4 md:row-span-2 min-h-[280px] md:min-h-0" style={{ padding: 0 }}>
+        <Card
+          className="md:col-span-4 md:row-span-2 min-h-[280px] md:min-h-0 cursor-pointer"
+          style={{ padding: 0 }}
+          onClick={() => {
+            if (window.lenis) {
+              window.lenis.scrollTo('#projects', { offset: -80 });
+            } else {
+              const el = document.querySelector('#projects');
+              if (el) el.scrollIntoView({ behavior: 'smooth' });
+            }
+          }}
+        >
           <VideoCard />
         </Card>
 
