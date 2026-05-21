@@ -35,6 +35,13 @@
 .animate-music-bar-2 { animation: music-bar-2 0.7s ease-in-out infinite; }
 .animate-music-bar-3 { animation: music-bar-3 0.5s ease-in-out infinite; }
 
+@keyframes music-bar-sm-1 { 0%,100% { height: 3px  } 50% { height: 11px } }
+@keyframes music-bar-sm-2 { 0%,100% { height: 6px  } 50% { height: 13px } }
+@keyframes music-bar-sm-3 { 0%,100% { height: 2px  } 50% { height: 9px } }
+.animate-music-bar-sm-1 { animation: music-bar-sm-1 0.6s ease-in-out infinite; }
+.animate-music-bar-sm-2 { animation: music-bar-sm-2 0.8s ease-in-out infinite; }
+.animate-music-bar-sm-3 { animation: music-bar-sm-3 0.5s ease-in-out infinite; }
+
 @keyframes spin-slow {
   from { transform: rotate(0deg); }
   to   { transform: rotate(360deg); }

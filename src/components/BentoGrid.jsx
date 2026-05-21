@@ -161,19 +161,19 @@ const VideoCard = () => {
       {/* Blue tint overlay */}
       <div className="absolute inset-0 bg-blue-500/10 mix-blend-overlay pointer-events-none" />
       {/* Bottom gradient + project text */}
-      <div className="absolute bottom-0 inset-x-0 h-36 bg-gradient-to-t from-black/90 to-transparent flex flex-col justify-end p-5 gap-1.5">
+      <div className="absolute bottom-0 inset-x-0 h-28 bg-gradient-to-t from-black/95 via-black/70 to-transparent flex flex-col justify-end p-4 gap-1">
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.6 }}
           viewport={{ once: true }}
         >
-          <p className="text-[10px] uppercase tracking-widest text-white/40 mb-2" style={{ fontFamily: 'Satoshi, sans-serif' }}>Featured Projects</p>
-          <p className="text-sm text-white/80 font-medium leading-snug" style={{ fontFamily: 'Satoshi, sans-serif' }}>
+          <p className="text-[9px] uppercase tracking-widest text-white/45 mb-1.5 animate-pulse" style={{ fontFamily: 'Satoshi, sans-serif' }}>Featured Projects</p>
+          <p className="text-xs text-white/90 font-medium leading-snug" style={{ fontFamily: 'Satoshi, sans-serif' }}>
             Educational Center Management System
-            <span className="text-white/40 text-xs ml-1">(Java OOP)</span>
+            <span className="text-white/45 text-[10px] ml-1">(Java OOP)</span>
           </p>
-          <p className="text-sm text-white/80 font-medium leading-snug mt-1" style={{ fontFamily: 'Satoshi, sans-serif' }}>
+          <p className="text-xs text-white/90 font-medium leading-snug mt-0.5" style={{ fontFamily: 'Satoshi, sans-serif' }}>
             Islamic Remembrance (Azkar) App
           </p>
         </motion.div>
@@ -263,7 +263,7 @@ const MusicPlayer = () => {
   };
 
   return (
-    <div className="h-full p-4 md:p-5 flex flex-col justify-between relative overflow-hidden select-none">
+    <div className="h-full p-4 flex flex-col justify-between relative overflow-hidden select-none">
       {/* Album Art blurred background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <img src="/songpic.webp" className="w-full h-full object-cover blur-3xl opacity-20 scale-150" alt="" />
@@ -271,8 +271,17 @@ const MusicPlayer = () => {
 
       {/* Top Header Row */}
       <div className="relative z-10 flex items-center justify-between w-full">
-        <span className="inline-flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-green-400 font-bold" style={{ fontFamily: 'Satoshi, sans-serif' }}>
-          <span className={`w-1.5 h-1.5 rounded-full bg-green-400 ${playing ? 'animate-ping' : ''}`} />
+        <span className="inline-flex items-center gap-2 text-[10px] uppercase tracking-wider text-green-400 font-bold" style={{ fontFamily: 'Satoshi, sans-serif' }}>
+          {playing ? (
+            <div className="flex items-end gap-[2px] h-3 w-4 pb-[1px]">
+              <span className="w-[2px] bg-green-400 rounded-full animate-music-bar-sm-1" style={{ height: '3px' }} />
+              <span className="w-[2px] bg-green-400 rounded-full animate-music-bar-sm-2" style={{ height: '6px' }} />
+              <span className="w-[2px] bg-green-400 rounded-full animate-music-bar-sm-3" style={{ height: '2px' }} />
+              <span className="w-[2px] bg-green-400 rounded-full animate-music-bar-sm-2" style={{ height: '5px' }} />
+            </div>
+          ) : (
+            <span className="w-1.5 h-1.5 rounded-full bg-green-400" />
+          )}
           Now Playing
         </span>
         <svg className="w-4 h-4 text-green-400 opacity-80" viewBox="0 0 24 24" fill="currentColor">
@@ -421,12 +430,12 @@ const BentoGrid = () => {
         </Card>
 
         {/* Row 2 */}
-        <Card className="md:col-span-5 min-h-[120px] md:min-h-[150px]">
+        <Card className="md:col-span-4 h-[135px] md:h-[145px]">
           <MusicPlayer />
         </Card>
 
         <Card
-          className="md:col-span-7 min-h-[150px] md:min-h-[150px] cursor-pointer"
+          className="md:col-span-8 h-[135px] md:h-[145px] cursor-pointer"
           style={{ padding: 0 }}
           onClick={() => {
             if (window.lenis) {
