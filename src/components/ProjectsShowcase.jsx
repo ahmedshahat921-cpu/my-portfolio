@@ -11,7 +11,7 @@ const projectsData = [
     longDesc: 'TeamUp solves the coordination and communication gap between students and professors. By providing a unified, real-time workspace, it completely eliminates traditional paperwork, double-bookings, and redundant project ideas.',
     challenge: 'University graduation projects were managed via offline paper forms, leading to massive coordination delays, duplicate project topics, and lack of direct communication channels between students and academic supervisors.',
     solution: 'We built a secure, real-time collaboration environment with automated booking validations, role-based workflows, and a public "Idea Vault" for supervisors to publish research opportunities.',
-    vercelUrl: 'https://my-portfolio-two-iota-13.vercel.app',
+    vercelUrl: 'https://team-up-eight-woad.vercel.app',
     githubUrl: 'https://github.com/ahmedshahat921',
     techStack: ['React.js', 'Tailwind CSS', 'Supabase', 'PostgreSQL', 'Socket.io'],
     coverImage: '/ideaproject_teamup/img/Screenshot 2026-05-16 221008.png',
@@ -150,7 +150,8 @@ const ProjectsShowcase = () => {
   }, [selectedProject, activeSlide, lightboxImage]);
 
   return (
-    <section id="projects" className="bg-black py-16 md:py-24 px-4 md:px-8 lg:px-12 relative z-20 overflow-hidden">
+    <>
+      <section id="projects" className="bg-black py-16 md:py-24 px-4 md:px-8 lg:px-12 relative z-20 overflow-hidden">
       {/* Decorative dynamic ambient glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-500/5 rounded-full blur-3xl pointer-events-none" />
 
@@ -254,6 +255,7 @@ const ProjectsShowcase = () => {
           ))}
         </div>
       </div>
+    </section>
 
       {/* Full-Screen Case Study Modal */}
       <AnimatePresence>
@@ -262,7 +264,7 @@ const ProjectsShowcase = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 bg-black/95 backdrop-blur-2xl overflow-y-auto"
+            className="fixed inset-0 z-[60] flex items-center justify-center p-4 md:p-8 bg-black/95 backdrop-blur-2xl overflow-y-auto"
           >
             {/* Modal Container */}
             <motion.div
@@ -427,50 +429,8 @@ const ProjectsShowcase = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setLightboxImage(null)}
-            className="fixed inset-0 z-[60] flex items-center justify-center bg-black/95 backdrop-blur-2xl p-4 md:p-12 cursor-zoom-out"
+            className="fixed inset-0 z-[70] flex items-center justify-center bg-black/95 backdrop-blur-2xl p-4 md:p-12 cursor-zoom-out"
           >
-            {/* Close Button */}
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                setLightboxImage(null);
-              }}
-              className="absolute top-6 right-6 z-[70] bg-white/10 hover:bg-white text-white hover:text-black w-12 h-12 rounded-full flex items-center justify-center border border-white/10 hover:border-white transition-colors duration-300 focus:outline-none cursor-pointer"
-              aria-label="Close fullscreen"
-            >
-              <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                <line x1="18" y1="6" x2="6" y2="18" />
-                <line x1="6" y1="6" x2="18" y2="18" />
-              </svg>
-            </button>
-
-            {/* Navigation Arrows */}
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                handlePrevLightbox();
-              }}
-              className="absolute left-6 z-50 bg-white/5 hover:bg-white text-white hover:text-black w-12 h-12 rounded-full flex items-center justify-center border border-white/10 transition-colors duration-300 focus:outline-none"
-              aria-label="Previous image"
-            >
-              <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                <polyline points="15 18 9 12 15 6" />
-              </svg>
-            </button>
-
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                handleNextLightbox();
-              }}
-              className="absolute right-6 z-50 bg-white/5 hover:bg-white text-white hover:text-black w-12 h-12 rounded-full flex items-center justify-center border border-white/10 transition-colors duration-300 focus:outline-none"
-              aria-label="Next image"
-            >
-              <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                <polyline points="9 18 15 12 9 6" />
-              </svg>
-            </button>
-
             {/* Lightbox Content Container */}
             <div className="relative max-w-7xl max-h-[85vh] flex flex-col items-center" onClick={(e) => e.stopPropagation()}>
               <AnimatePresence initial={false} custom={direction} mode="wait">
@@ -496,10 +456,55 @@ const ProjectsShowcase = () => {
                 {activeSlide + 1} / {selectedProject.screenshots.length}
               </div>
             </div>
+
+            {/* Close Button */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setLightboxImage(null);
+              }}
+              style={{ zIndex: 9999 }}
+              className="absolute top-6 right-6 bg-white/10 hover:bg-white text-white hover:text-black w-12 h-12 rounded-full flex items-center justify-center border border-white/10 hover:border-white transition-colors duration-300 focus:outline-none cursor-pointer"
+              aria-label="Close fullscreen"
+            >
+              <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+
+            {/* Navigation Arrows */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handlePrevLightbox();
+              }}
+              style={{ zIndex: 9998 }}
+              className="absolute left-6 bg-white/5 hover:bg-white text-white hover:text-black w-12 h-12 rounded-full flex items-center justify-center border border-white/10 transition-colors duration-300 focus:outline-none cursor-pointer"
+              aria-label="Previous image"
+            >
+              <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+            </button>
+
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handleNextLightbox();
+              }}
+              style={{ zIndex: 9998 }}
+              className="absolute right-6 bg-white/5 hover:bg-white text-white hover:text-black w-12 h-12 rounded-full flex items-center justify-center border border-white/10 transition-colors duration-300 focus:outline-none cursor-pointer"
+              aria-label="Next image"
+            >
+              <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </button>
           </motion.div>
         )}
       </AnimatePresence>
-    </section>
+    </>
   );
 };
 
