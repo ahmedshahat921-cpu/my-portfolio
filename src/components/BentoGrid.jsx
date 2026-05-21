@@ -34,22 +34,22 @@ const Card = ({ children, className = '', style = {}, ...props }) => (
 // 1. Wallpaper Gallery
 // ─────────────────────────────────────────────────────────
 const WallpaperGallery = () => {
-  const wallpapers = [
-    '/wall1.webp', '/wall2.webp', '/wall3.webp', '/wall4.webp',
-    '/wall5.webp', '/wall6.webp', '/wall7.webp',
-    '/wall1.webp', '/wall2.webp', '/wall3.webp', '/wall4.webp',
-    '/wall5.webp', '/wall6.webp', '/wall7.webp',
+  const photos = [
+    '/about1.jpg', '/about2.jpg', '/about3.jpg', '/about4.jpg'
   ];
+  
+  // Duplicate 4 times to ensure it spans enough width for a seamless infinite scroll loop
+  const items = [...photos, ...photos, ...photos, ...photos];
 
   return (
     <div className="flex items-center h-full relative overflow-hidden">
       <div className="flex gap-3 animate-slide-horizontal w-max grayscale group-hover:grayscale-0 transition-all duration-700">
-        {wallpapers.map((src, i) => (
+        {items.map((src, i) => (
           <img
             key={i}
             src={src}
             className="h-56 md:h-72 aspect-[9/16] object-cover rounded-xl flex-shrink-0"
-            alt={`Wallpaper ${(i % 7) + 1}`}
+            alt={`About Photo ${(i % 4) + 1}`}
           />
         ))}
       </div>
