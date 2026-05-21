@@ -35,10 +35,10 @@ const Card = ({ children, className = '', style = {}, ...props }) => (
 // ─────────────────────────────────────────────────────────
 const WallpaperGallery = () => {
   const photos = [
-    { src: '/about1.jpg', pos: 'object-right' },   // NTI team (Ahmed on far right)
-    { src: '/about2.jpg', pos: 'object-left' },    // Auditorium (Ahmed on far left)
-    { src: '/about3.jpg', pos: 'object-left' },    // Group certificates (Ahmed on far left)
-    { src: '/about4.jpg', pos: 'object-center' }   // Solo (Ahmed in center)
+    { src: '/about1.jpg' },
+    { src: '/about2.jpg' },
+    { src: '/about3.jpg' },
+    { src: '/about4.jpg' }
   ];
   
   // Duplicate 4 times to ensure it spans enough width for a seamless infinite scroll loop
@@ -51,7 +51,7 @@ const WallpaperGallery = () => {
           <img
             key={i}
             src={item.src}
-            className={`h-56 md:h-72 aspect-[3/4] object-cover ${item.pos} rounded-xl flex-shrink-0`}
+            className="h-56 md:h-72 w-auto object-cover rounded-xl flex-shrink-0"
             alt={`About Photo ${(i % 4) + 1}`}
           />
         ))}
