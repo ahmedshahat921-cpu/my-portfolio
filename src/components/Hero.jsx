@@ -213,22 +213,6 @@ const Hero = () => {
                 <span className="inline-block ml-1.5 w-[3px] h-[0.85em] bg-green-400 align-middle animate-pulse" />
               </h1>
             </div>
-
-            {/* Download CV */}
-            <a
-              href="/assets/Ahmed_Shahat_CV.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2.5 px-6 py-3 bg-white/10 backdrop-blur-md border border-white/15 text-white font-bold rounded-full hover:bg-white/20 hover:scale-105 active:scale-95 transition-all duration-300 w-fit shadow-[0_4px_24px_rgba(0,0,0,0.5)] hover:shadow-[0_0_20px_rgba(255,255,255,0.1)]"
-              style={{ fontFamily: 'Satoshi, sans-serif' }}
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                <polyline points="7 10 12 15 17 10" />
-                <line x1="12" y1="15" x2="12" y2="3" />
-              </svg>
-              Download CV
-            </a>
           </div>
 
           {/* Centered Scroll Indicator at the bottom */}
