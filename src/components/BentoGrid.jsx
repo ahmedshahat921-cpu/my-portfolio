@@ -38,21 +38,34 @@ const WallpaperGallery = () => {
     { src: '/about1.jpg' },
     { src: '/about2.jpg' },
     { src: '/about3.jpg' },
-    { src: '/about4.jpg' }
+    { src: '/about4.jpg' },
+    { src: '/about5.jpg' },
+    { src: '/about6.jpg' }
   ];
   
   // Duplicate 4 times to ensure it spans enough width for a seamless infinite scroll loop
   const items = [...photos, ...photos, ...photos, ...photos];
 
   return (
-    <div className="flex items-center h-full relative overflow-hidden">
-      <div className="flex gap-3 animate-slide-horizontal w-max grayscale group-hover:grayscale-0 transition-all duration-700">
+    <div className="flex items-center h-full relative overflow-hidden group/gallery">
+      {/* Title Overlay */}
+      <div className="absolute top-4 left-4 z-20">
+        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-[9px] font-bold uppercase tracking-widest text-white/90" style={{ fontFamily: 'Satoshi, sans-serif' }}>
+          <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
+          CREATIVA Team & Training
+        </span>
+      </div>
+
+      <div 
+        className="flex gap-3 w-max grayscale group-hover/gallery:grayscale-0 transition-all duration-700"
+        style={{ animation: 'slide-horizontal 30s linear infinite' }}
+      >
         {items.map((item, i) => (
           <img
             key={i}
             src={item.src}
             className="h-56 md:h-72 w-auto object-cover rounded-xl flex-shrink-0"
-            alt={`About Photo ${(i % 4) + 1}`}
+            alt={`About Photo ${(i % 6) + 1}`}
           />
         ))}
       </div>
