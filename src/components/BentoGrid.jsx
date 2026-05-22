@@ -134,74 +134,6 @@ const IntroCard = () => {
 
 
 // ─────────────────────────────────────────────────────────
-// 5. Video & Projects Card
-// ─────────────────────────────────────────────────────────
-const VideoCard = () => {
-  const videoRef = useRef(null);
-  const [muted, setMuted] = useState(true);
-
-  const toggleMute = () => {
-    const video = videoRef.current;
-    if (!video) return;
-    video.muted = !video.muted;
-    setMuted(video.muted);
-  };
-
-  return (
-    <div className="h-full w-full relative overflow-hidden">
-      <video
-        ref={videoRef}
-        src="/carchase.mp4"
-        className="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity duration-500"
-        autoPlay
-        loop
-        muted
-        playsInline
-      />
-      {/* Blue tint overlay */}
-      <div className="absolute inset-0 bg-blue-500/10 mix-blend-overlay pointer-events-none" />
-      {/* Bottom gradient + project text */}
-      <div className="absolute bottom-0 inset-x-0 h-28 bg-gradient-to-t from-black/95 via-black/70 to-transparent flex flex-col justify-end p-4 gap-1">
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.6 }}
-          viewport={{ once: true }}
-        >
-          <p className="text-[9px] uppercase tracking-widest text-white/45 mb-1.5 animate-pulse" style={{ fontFamily: 'Satoshi, sans-serif' }}>Featured Projects</p>
-          <p className="text-xs text-white/90 font-medium leading-snug" style={{ fontFamily: 'Satoshi, sans-serif' }}>
-            Educational Center Management System
-            <span className="text-white/45 text-[10px] ml-1">(Java OOP)</span>
-          </p>
-          <p className="text-xs text-white/90 font-medium leading-snug mt-0.5" style={{ fontFamily: 'Satoshi, sans-serif' }}>
-            Islamic Remembrance (Azkar) App
-          </p>
-        </motion.div>
-      </div>
-      {/* Mute / Unmute button */}
-      <button
-        onClick={toggleMute}
-        className="absolute bottom-4 right-4 bg-black/50 backdrop-blur-sm p-2.5 rounded-full hover:bg-white/20 transition-colors z-10"
-        aria-label={muted ? 'Unmute' : 'Mute'}
-      >
-        {muted ? (
-          <svg width="18" height="18" fill="none" stroke="white" strokeWidth="2" viewBox="0 0 24 24">
-            <path d="M11 5L6 9H2v6h4l5 4V5z"/>
-            <line x1="23" y1="9" x2="17" y2="15"/>
-            <line x1="17" y1="9" x2="23" y2="15"/>
-          </svg>
-        ) : (
-          <svg width="18" height="18" fill="none" stroke="white" strokeWidth="2" viewBox="0 0 24 24">
-            <path d="M11 5L6 9H2v6h4l5 4V5z"/>
-            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
-          </svg>
-        )}
-      </button>
-    </div>
-  );
-};
-
-// ─────────────────────────────────────────────────────────
 // 6. Music Player
 // ─────────────────────────────────────────────────────────
 const MusicPlayer = () => {
@@ -430,23 +362,8 @@ const BentoGrid = () => {
         </Card>
 
         {/* Row 2 */}
-        <Card className="md:col-span-4 h-[135px] md:h-[145px]">
+        <Card className="md:col-span-12 h-[135px] md:h-[145px]">
           <MusicPlayer />
-        </Card>
-
-        <Card
-          className="md:col-span-8 h-[135px] md:h-[145px] cursor-pointer"
-          style={{ padding: 0 }}
-          onClick={() => {
-            if (window.lenis) {
-              window.lenis.scrollTo('#projects', { offset: -80 });
-            } else {
-              const el = document.querySelector('#projects');
-              if (el) el.scrollIntoView({ behavior: 'smooth' });
-            }
-          }}
-        >
-          <VideoCard />
         </Card>
 
       </div>
