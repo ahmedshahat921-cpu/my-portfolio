@@ -47,7 +47,7 @@ const Navbar = () => {
           : 'bg-transparent py-6'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between">
+      <div className="w-full px-6 md:px-12 lg:px-16 flex items-center justify-between">
         
         {/* Left: Clean Logo / Name */}
         <a
