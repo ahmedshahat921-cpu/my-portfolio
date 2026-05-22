@@ -164,59 +164,54 @@ const Hero = () => {
         <div className="absolute bottom-0 inset-x-0 h-64 bg-gradient-to-t from-black/60 to-transparent z-10 pointer-events-none" />
 
         {/* ── Content layer ── */}
-        <div className="absolute inset-0 z-30 flex flex-col justify-between p-8 md:p-12 text-white">
+        <div className="absolute inset-0 z-30 flex flex-col justify-end p-8 md:p-16 text-white">
 
-
-
-          {/* Bottom section */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
-
-            {/* Bottom-left: Title */}
+          {/* Left-Aligned Stack */}
+          <div className="flex flex-col items-start gap-5 max-w-lg mb-8 md:mb-4">
             <div>
+              <span className="text-[10px] md:text-xs font-bold tracking-widest text-white/40 uppercase" style={{ fontFamily: 'Satoshi, sans-serif' }}>
+                Creative Portfolio
+              </span>
               <h1
-                className="text-5xl md:text-7xl font-bold leading-none tracking-tighter uppercase"
+                className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight uppercase mt-1"
                 style={{ fontFamily: 'Syne, sans-serif' }}
               >
-                Web<br />Developer
+                Web Developer
               </h1>
             </div>
 
-            {/* Bottom-right: description + scroll indicator + CV */}
-            <div className="max-w-xs md:max-w-sm flex flex-col gap-5">
+            {/* Download CV */}
+            <a
+              href="/assets/Ahmed_Shahat_CV.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2.5 px-6 py-3 bg-white hover:bg-white/90 text-black font-bold rounded-full hover:scale-105 active:scale-95 transition-all duration-205 w-fit shadow-lg shadow-white/5"
+              style={{ fontFamily: 'Satoshi, sans-serif' }}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
+              Download CV
+            </a>
+          </div>
 
-              {/* Scroll indicator */}
-              <div className="opacity-50">
-                {/* Desktop: animated arrow */}
-                <svg
-                  className="hidden md:block animate-bounce"
-                  width="28" height="28" viewBox="0 0 24 24"
-                  fill="none" stroke="currentColor" strokeWidth="2"
-                >
-                  <path d="M12 5v14M19 12l-7 7-7-7" />
-                </svg>
-                {/* Mobile: mouse icon */}
-                <div className="md:hidden flex flex-col items-center gap-1">
-                  <div className="w-6 h-9 border-2 border-white/50 rounded-full flex justify-center pt-1.5">
-                    <div className="w-1 h-2 bg-white/50 rounded-full animate-bounce" />
-                  </div>
-                </div>
+          {/* Centered Scroll Indicator at the bottom */}
+          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 opacity-40 hover:opacity-85 transition-opacity duration-300 pointer-events-none">
+            {/* Desktop: animated arrow */}
+            <svg
+              className="hidden md:block animate-bounce"
+              width="20" height="20" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" strokeWidth="2.5"
+            >
+              <path d="M12 5v14M19 12l-7 7-7-7" />
+            </svg>
+            {/* Mobile: mouse icon */}
+            <div className="md:hidden flex flex-col items-center gap-1">
+              <div className="w-5 h-8 border-2 border-white/60 rounded-full flex justify-center pt-1">
+                <div className="w-1.5 h-1.5 bg-white/60 rounded-full animate-bounce" />
               </div>
-
-              {/* Download CV */}
-              <a
-                href="/assets/Ahmed_Shahat_CV.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-white text-black font-bold rounded-full hover:scale-105 hover:bg-white/90 active:scale-95 transition-all duration-200 w-fit"
-                style={{ fontFamily: 'Satoshi, sans-serif' }}
-              >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                  <polyline points="7 10 12 15 17 10" />
-                  <line x1="12" y1="15" x2="12" y2="3" />
-                </svg>
-                Download CV
-              </a>
             </div>
           </div>
         </div>
