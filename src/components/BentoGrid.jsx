@@ -58,13 +58,13 @@ const WallpaperGallery = () => {
 
       <div 
         className="flex gap-3 w-max grayscale group-hover/gallery:grayscale-0 transition-all duration-700"
-        style={{ animation: 'slide-horizontal 10s linear infinite' }}
+        style={{ animation: 'slide-horizontal 12s linear infinite' }}
       >
         {items.map((item, i) => (
           <img
             key={i}
             src={item.src}
-            className="h-56 md:h-72 w-auto object-cover rounded-xl flex-shrink-0"
+            className="h-56 md:h-72 w-48 md:w-64 object-cover rounded-xl flex-shrink-0"
             alt={`About Photo ${(i % 6) + 1}`}
           />
         ))}
