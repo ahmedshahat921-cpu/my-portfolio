@@ -25,7 +25,6 @@ const Hero = () => {
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [displayedText, setDisplayedText] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
-  const [typingSpeed, setTypingSpeed] = useState(120);
 
   // ── Draw a specific frame onto the canvas ──────────────────────────────
   const drawFrame = useCallback((index) => {
@@ -129,37 +128,32 @@ const Hero = () => {
 
   // ── Typewriter effect for developer titles ──────────────────────────────
   useEffect(() => {
-    let timer;
     const currentWord = WORDS[currentWordIndex];
+    let timer;
 
-    const handleTyping = () => {
-      if (!isDeleting) {
-        setDisplayedText(currentWord.substring(0, displayedText.length + 1));
-        setTypingSpeed(100 + Math.random() * 50);
-
-        if (displayedText === currentWord) {
-          timer = setTimeout(() => {
-            setIsDeleting(true);
-            setTypingSpeed(50);
-          }, 2000);
-          return;
-        }
+    if (!isDeleting) {
+      if (displayedText !== currentWord) {
+        timer = setTimeout(() => {
+          setDisplayedText(currentWord.substring(0, displayedText.length + 1));
+        }, 100 + Math.random() * 50);
       } else {
-        setDisplayedText(currentWord.substring(0, displayedText.length - 1));
-        setTypingSpeed(50);
-
-        if (displayedText === '') {
-          setIsDeleting(false);
-          setCurrentWordIndex((prev) => (prev + 1) % WORDS.length);
-          setTypingSpeed(150);
-          return;
-        }
+        timer = setTimeout(() => {
+          setIsDeleting(true);
+        }, 2000);
       }
-    };
+    } else {
+      if (displayedText !== '') {
+        timer = setTimeout(() => {
+          setDisplayedText(currentWord.substring(0, displayedText.length - 1));
+        }, 50);
+      } else {
+        setIsDeleting(false);
+        setCurrentWordIndex((prev) => (prev + 1) % WORDS.length);
+      }
+    }
 
-    timer = setTimeout(handleTyping, typingSpeed);
     return () => clearTimeout(timer);
-  }, [displayedText, isDeleting, currentWordIndex, typingSpeed]);
+  }, [displayedText, isDeleting, currentWordIndex]);
 
   return (
     <div id="home" ref={containerRef} className="relative bg-black" style={{ height: '800vh' }}>
