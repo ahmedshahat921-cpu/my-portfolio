@@ -77,3 +77,20 @@ html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
 .lenis.lenis-stopped { overflow: hidden; }
 .lenis.lenis-scrolling iframe { pointer-events: none; }
+
+/* ─── Ambient Glows ────────────────────────────────────────── */
+@keyframes float-glow-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%      { transform: translate(40px, -60px) scale(1.1); }
+  66%      { transform: translate(-30px, 30px) scale(0.95); }
+}
+@keyframes float-glow-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%      { transform: translate(-50px, 50px) scale(1.15); }
+}
+.animate-float-glow-1 {
+  animation: float-glow-1 25s ease-in-out infinite;
+}
+.animate-float-glow-2 {
+  animation: float-glow-2 30s ease-in-out infinite;
+}

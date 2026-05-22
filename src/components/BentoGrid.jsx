@@ -9,26 +9,75 @@ gsap.registerPlugin(ScrollTrigger);
 // ─────────────────────────────────────────────────────────
 // Shared Card wrapper
 // ─────────────────────────────────────────────────────────
-const Card = ({ children, className = '', style = {}, ...props }) => (
-  <div
-    className={`
-      bento-card
-      relative overflow-hidden rounded-3xl
-      bg-white/5 backdrop-blur-md border border-white/10
-      shadow-lg hover:shadow-blue-500/20 hover:border-white/20
-      transition-all duration-500 flex flex-col group
-      ${className}
-    `}
-    style={style}
-    {...props}
-  >
-    {/* Subtle hover shimmer */}
-    <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-0" />
-    <div className="relative z-10 h-full w-full flex flex-col">
-      {children}
+const Card = ({ children, className = '', style = {}, ...props }) => {
+  const cardRef = useRef(null);
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const [glow, setGlow] = useState({ x: 0, y: 0, opacity: 0 });
+
+  const handleMouseMove = (e) => {
+    const card = cardRef.current;
+    if (!card) return;
+    const { left, top, width, height } = card.getBoundingClientRect();
+    const x = e.clientX - left;
+    const y = e.clientY - top;
+    
+    const normalizedX = (x / width) - 0.5;
+    const normalizedY = (y / height) - 0.5;
+    
+    const maxTilt = 5; // Subtle 5-degree tilt
+    setTilt({
+      x: -normalizedY * maxTilt,
+      y: normalizedX * maxTilt,
+    });
+    
+    setGlow({
+      x,
+      y,
+      opacity: 1,
+    });
+  };
+
+  const handleMouseLeave = () => {
+    setTilt({ x: 0, y: 0 });
+    setGlow((prev) => ({ ...prev, opacity: 0 }));
+  };
+
+  return (
+    <div
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className={`
+        bento-card
+        relative overflow-hidden rounded-3xl
+        bg-white/5 backdrop-blur-md border border-white/10
+        shadow-lg hover:shadow-blue-500/20 hover:border-white/20
+        transition-all duration-300 flex flex-col group
+        ${className}
+      `}
+      style={{
+        ...style,
+        transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
+        transition: tilt.x === 0 && tilt.y === 0 ? 'transform 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease' : 'border-color 0.5s ease, box-shadow 0.5s ease',
+      }}
+      {...props}
+    >
+      {/* Spotlight Cursor-Tracking Radial Glow */}
+      <div
+        className="absolute inset-0 pointer-events-none z-0 transition-opacity duration-300"
+        style={{
+          background: `radial-gradient(350px circle at ${glow.x}px ${glow.y}px, rgba(59, 130, 246, 0.12), transparent 80%)`,
+          opacity: glow.opacity,
+        }}
+      />
+      {/* Subtle hover shimmer */}
+      <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-0" />
+      <div className="relative z-10 h-full w-full flex flex-col">
+        {children}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 // ─────────────────────────────────────────────────────────
 // 1. Wallpaper Gallery
@@ -431,8 +480,11 @@ const BentoGrid = () => {
     <section
       ref={containerRef}
       id="about"
-      className="bg-black py-16 md:py-24 px-4 md:px-8 lg:px-12 relative z-20"
+      className="bg-black py-16 md:py-24 px-4 md:px-8 lg:px-12 relative z-20 overflow-hidden"
     >
+      {/* Ambient background floating glows */}
+      <div className="absolute top-1/4 left-1/4 w-[450px] h-[450px] bg-blue-500/5 rounded-full blur-[100px] pointer-events-none animate-float-glow-1 z-0" />
+      <div className="absolute bottom-1/4 right-1/4 w-[550px] h-[550px] bg-indigo-500/5 rounded-full blur-[120px] pointer-events-none animate-float-glow-2 z-0" />
 
 
       {/*
