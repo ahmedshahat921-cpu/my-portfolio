@@ -293,12 +293,15 @@ const SkillsShowcase = () => {
     return [...arr, ...arr, ...arr, ...arr];
   };
 
-  const renderMarqueeRow = (skills, direction = 'left') => {
+  const renderMarqueeRow = (skills, direction = 'left', duration = '25s') => {
     const animatedClass = direction === 'left' ? 'animate-marquee' : 'animate-marquee-reverse';
     const items = duplicate(skills);
     return (
       <div className="relative w-full overflow-hidden flex items-center py-2 md:py-3">
-        <div className={`flex items-center ${animatedClass} whitespace-nowrap hover:[animation-play-state:paused]`}>
+        <div 
+          className={`flex items-center ${animatedClass} whitespace-nowrap hover:[animation-play-state:paused]`}
+          style={{ animationDuration: duration }}
+        >
           {items.map((skill, idx) => (
             <div
               key={idx}
@@ -359,14 +362,14 @@ const SkillsShowcase = () => {
           <div className="absolute left-0 top-0 bottom-0 w-20 md:w-32 bg-gradient-to-r from-black via-black/75 to-transparent pointer-events-none z-10" />
           <div className="absolute right-0 top-0 bottom-0 w-20 md:w-32 bg-gradient-to-l from-black via-black/75 to-transparent pointer-events-none z-10" />
 
-          {/* Row 1: Web Dev (Left) */}
-          {renderMarqueeRow(webSkills, 'left')}
+          {/* Row 1: Web Dev (Left) - 32 items */}
+          {renderMarqueeRow(webSkills, 'left', '25s')}
 
-          {/* Row 2: Languages & DSA (Right) */}
-          {renderMarqueeRow(langSkills, 'right')}
+          {/* Row 2: Languages & DSA (Right) - 36 items (duration scaled to match speed) */}
+          {renderMarqueeRow(langSkills, 'right', '28.125s')}
 
-          {/* Row 3: Tools & Systems (Left) */}
-          {renderMarqueeRow(toolSkills, 'left')}
+          {/* Row 3: Tools & Systems (Left) - 24 items (duration scaled to match speed) */}
+          {renderMarqueeRow(toolSkills, 'left', '18.75s')}
         </div>
       </div>
     </section>
