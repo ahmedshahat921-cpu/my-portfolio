@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import SkillsBubbleCanvas from './SkillsBubbleCanvas';
 
 // SVG Icons for all skills
 const Icons = {
@@ -281,6 +282,7 @@ const skillsData = [
 ];
 
 const SkillsShowcase = () => {
+  const [viewMode, setViewMode] = useState('marquee');
   const webSkills = skillsData.filter((s) => s.category === 'web');
   const langSkills = skillsData.filter((s) => s.category === 'languages');
   const toolSkills = skillsData.filter((s) => s.category === 'tools');
@@ -335,7 +337,7 @@ const SkillsShowcase = () => {
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Header */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-8">
           <motion.p
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 0.5, y: 0 }}
@@ -350,27 +352,81 @@ const SkillsShowcase = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-4xl md:text-5xl font-bold tracking-tight text-white font-syne"
+            className="text-4xl md:text-5xl font-bold tracking-tight text-white font-syne mb-6"
           >
             Skills & Expertise
           </motion.h2>
         </div>
 
-        {/* Interactive Marquees Container */}
-        <div className="relative space-y-4 md:space-y-6 mt-8">
-          {/* Gradient Fade Overlays */}
-          <div className="absolute left-0 top-0 bottom-0 w-20 md:w-32 bg-gradient-to-r from-black via-black/75 to-transparent pointer-events-none z-10" />
-          <div className="absolute right-0 top-0 bottom-0 w-20 md:w-32 bg-gradient-to-l from-black via-black/75 to-transparent pointer-events-none z-10" />
-
-          {/* Row 1: Web Dev (Left) - 32 items */}
-          {renderMarqueeRow(webSkills, 'left', '25s')}
-
-          {/* Row 2: Languages & DSA (Right) - 36 items (duration scaled to match speed) */}
-          {renderMarqueeRow(langSkills, 'right', '28.125s')}
-
-          {/* Row 3: Tools & Systems (Left) - 24 items (duration scaled to match speed) */}
-          {renderMarqueeRow(toolSkills, 'left', '18.75s')}
+        {/* View Switcher Toggle Tab */}
+        <div className="flex justify-center mb-8 relative z-30">
+          <div className="inline-flex bg-zinc-950/60 border border-white/5 p-1 rounded-2xl relative overflow-hidden backdrop-blur-md">
+            <button
+              onClick={() => setViewMode('marquee')}
+              className={`relative px-5 py-2.5 text-xs font-bold font-satoshi uppercase tracking-wider rounded-xl transition-all duration-300 ${viewMode === 'marquee' ? 'text-white' : 'text-white/40 hover:text-white/60'}`}
+            >
+              {viewMode === 'marquee' && (
+                <motion.div 
+                  layoutId="activeTabBackground"
+                  className="absolute inset-0 bg-white/5 border border-white/10 rounded-xl -z-10 shadow-[0_0_15px_rgba(255,255,255,0.05)]"
+                  transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                />
+              )}
+              List View
+            </button>
+            <button
+              onClick={() => setViewMode('bubbles')}
+              className={`relative px-5 py-2.5 text-xs font-bold font-satoshi uppercase tracking-wider rounded-xl transition-all duration-300 ${viewMode === 'bubbles' ? 'text-white' : 'text-white/40 hover:text-white/60'}`}
+            >
+              {viewMode === 'bubbles' && (
+                <motion.div 
+                  layoutId="activeTabBackground"
+                  className="absolute inset-0 bg-white/5 border border-white/10 rounded-xl -z-10 shadow-[0_0_15px_rgba(255,255,255,0.05)]"
+                  transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                />
+              )}
+              Interactive Playground
+            </button>
+          </div>
         </div>
+
+        {/* Animated Container Switch */}
+        <AnimatePresence mode="wait">
+          {viewMode === 'marquee' ? (
+            <motion.div
+              key="marquee"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.35, ease: 'easeInOut' }}
+              className="relative space-y-4 md:space-y-6 mt-4"
+            >
+              {/* Gradient Fade Overlays */}
+              <div className="absolute left-0 top-0 bottom-0 w-20 md:w-32 bg-gradient-to-r from-black via-black/75 to-transparent pointer-events-none z-10" />
+              <div className="absolute right-0 top-0 bottom-0 w-20 md:w-32 bg-gradient-to-l from-black via-black/75 to-transparent pointer-events-none z-10" />
+
+              {/* Row 1: Web Dev (Left) - 32 items */}
+              {renderMarqueeRow(webSkills, 'left', '25s')}
+
+              {/* Row 2: Languages & DSA (Right) - 36 items (duration scaled to match speed) */}
+              {renderMarqueeRow(langSkills, 'right', '28.125s')}
+
+              {/* Row 3: Tools & Systems (Left) - 24 items (duration scaled to match speed) */}
+              {renderMarqueeRow(toolSkills, 'left', '18.75s')}
+            </motion.div>
+          ) : (
+            <motion.div
+              key="bubbles"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.35, ease: 'easeInOut' }}
+              className="mt-4"
+            >
+              <SkillsBubbleCanvas skills={skillsData} />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </section>
   );
