@@ -10,7 +10,7 @@ const FRAME_COUNT = 192;
 const INITIAL_BATCH = 30;
 const BATCH_SIZE = 30;
 
-const WORDS = ['Web Developer', 'React Developer', 'Full-Stack Developer'];
+const WORDS = ['Web Developer', 'Full-Stack Engineer', 'Open Source Contributor'];
 
 const Hero = () => {
   const canvasRef       = useRef(null);
