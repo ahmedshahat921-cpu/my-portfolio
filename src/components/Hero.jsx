@@ -119,6 +119,18 @@ const Hero = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  const handleContactClick = (e) => {
+    e.preventDefault();
+    if (window.lenis) {
+      window.lenis.scrollTo('#contact');
+    } else {
+      const element = document.querySelector('#contact');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
+
   return (
     <div id="home" ref={containerRef} className="relative bg-black" style={{ height: '800vh' }}>
       <div className="sticky top-0 h-screen w-full overflow-hidden">
@@ -166,19 +178,25 @@ const Hero = () => {
         {/* ── Content layer ── */}
         <div className="absolute inset-0 z-30 flex flex-col justify-between p-8 md:p-12 text-white">
 
-          {/* Top-right: email + phone */}
-          <div className="flex flex-col items-end gap-1 text-sm md:text-base opacity-80" style={{ fontFamily: 'Satoshi, sans-serif' }}>
+          {/* Top-right: Let's Talk button */}
+          <div className="flex justify-end items-start">
             <a
-              href="mailto:ahmedshahat921@gmail.com"
-              className="hover:text-white/60 transition-colors tracking-wide"
+              href="#contact"
+              onClick={handleContactClick}
+              className="group inline-flex items-center gap-2 px-5 py-2.5 bg-white/5 backdrop-blur-md hover:bg-white text-white hover:text-black border border-white/10 hover:border-white rounded-full font-bold text-xs md:text-sm uppercase tracking-widest transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg hover:shadow-white/10"
+              style={{ fontFamily: 'Satoshi, sans-serif' }}
             >
-              ahmedshahat921@gmail.com
-            </a>
-            <a
-              href="tel:01152012098"
-              className="hover:text-white/60 transition-colors tracking-wide"
-            >
-              01152012098
+              Let's Talk
+              <svg 
+                className="w-4 h-4 transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300"
+                fill="none" 
+                stroke="currentColor" 
+                strokeWidth="2.5" 
+                viewBox="0 0 24 24"
+              >
+                <line x1="7" y1="17" x2="17" y2="7" />
+                <polyline points="7 7 17 7 17 17" />
+              </svg>
             </a>
           </div>
 
