@@ -309,6 +309,84 @@ const MusicPlayer = () => {
 };
 
 // ─────────────────────────────────────────────────────────
+// 7. Status & Clock Card (Option 1)
+// ─────────────────────────────────────────────────────────
+const StatusCard = () => {
+  const [time, setTime] = useState('');
+
+  useEffect(() => {
+    const updateClock = () => {
+      const now = new Date();
+      const formatted = now.toLocaleTimeString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: true,
+      });
+      setTime(formatted);
+    };
+
+    updateClock();
+    const interval = setInterval(updateClock, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="h-full p-5 md:p-6 flex flex-col justify-between relative overflow-hidden select-none">
+      {/* Decorative gradient light blur in background */}
+      <div className="absolute -right-10 -bottom-10 w-40 h-40 rounded-full bg-blue-500/10 blur-3xl pointer-events-none z-0" />
+      <div className="absolute -left-10 -top-10 w-40 h-40 rounded-full bg-green-500/5 blur-3xl pointer-events-none z-0" />
+
+      {/* Header Info */}
+      <div className="relative z-10 flex items-center justify-between w-full">
+        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold uppercase tracking-widest text-white/50 animate-pulse" style={{ fontFamily: 'Satoshi, sans-serif' }}>
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="text-blue-400">
+            <path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z" />
+            <circle cx="12" cy="10" r="3" />
+          </svg>
+          Cairo, Egypt
+        </span>
+        
+        <span className="inline-flex items-center gap-2 text-[10px] uppercase tracking-wider text-green-400 font-bold" style={{ fontFamily: 'Satoshi, sans-serif' }}>
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+          </span>
+          Available for Work
+        </span>
+      </div>
+
+      {/* Live Digital Clock */}
+      <div className="relative z-10 my-auto flex flex-col items-start gap-1 py-1">
+        <span className="text-white/40 text-[9px] uppercase tracking-widest font-bold" style={{ fontFamily: 'Satoshi, sans-serif' }}>
+          Local Time
+        </span>
+        <div 
+          className="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-white/70 tracking-tight font-mono"
+          style={{ textShadow: '0 0 20px rgba(255,255,255,0.05)' }}
+        >
+          {time || '00:00:00 AM'}
+        </div>
+      </div>
+
+      {/* Footer Info */}
+      <div className="relative z-10 w-full flex items-center justify-between border-t border-white/5 pt-2 mt-1">
+        <span className="text-[9px] text-white/40 uppercase tracking-widest font-bold" style={{ fontFamily: 'Satoshi, sans-serif' }}>
+          Freelance & Fulltime
+        </span>
+        <span className="text-[10px] text-white/80 font-bold uppercase tracking-wider font-satoshi flex items-center gap-1">
+          Let's Build Something
+          <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+            <line x1="5" y1="12" x2="19" y2="12" />
+            <polyline points="12 5 19 12 12 19" />
+          </svg>
+        </span>
+      </div>
+    </div>
+  );
+};
+
+// ─────────────────────────────────────────────────────────
 // Main BentoGrid
 // ─────────────────────────────────────────────────────────
 const BentoGrid = () => {
@@ -346,9 +424,8 @@ const BentoGrid = () => {
 
       {/*
         Grid layout (12 cols):
-          Row 1–2 : Wallpaper (5) | Intro (7)
-          Row 3   : Tools (6) | Profile (2) | Video (4)
-          Row 4   : Music (6) | Profile cont | Video cont
+          Row 1   : Wallpaper (5) | Intro (7)
+          Row 2   : Music (5)     | Status / Clock (7)
       */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-5">
 
@@ -362,8 +439,12 @@ const BentoGrid = () => {
         </Card>
 
         {/* Row 2 */}
-        <Card className="md:col-span-12 h-[135px] md:h-[145px]">
+        <Card className="md:col-span-5 h-[135px] md:h-[145px]">
           <MusicPlayer />
+        </Card>
+
+        <Card className="md:col-span-7 h-[135px] md:h-[145px]">
+          <StatusCard />
         </Card>
 
       </div>
