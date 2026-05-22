@@ -135,17 +135,17 @@ const Hero = () => {
       if (displayedText !== currentWord) {
         timer = setTimeout(() => {
           setDisplayedText(currentWord.substring(0, displayedText.length + 1));
-        }, 100 + Math.random() * 50);
+        }, 50 + Math.random() * 30);
       } else {
         timer = setTimeout(() => {
           setIsDeleting(true);
-        }, 2000);
+        }, 1200);
       }
     } else {
       if (displayedText !== '') {
         timer = setTimeout(() => {
           setDisplayedText(currentWord.substring(0, displayedText.length - 1));
-        }, 50);
+        }, 25);
       } else {
         setIsDeleting(false);
         setCurrentWordIndex((prev) => (prev + 1) % WORDS.length);
@@ -219,7 +219,7 @@ const Hero = () => {
               href="/assets/Ahmed_Shahat_CV.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2.5 px-6 py-3 bg-white hover:bg-white/90 text-black font-bold rounded-full hover:scale-105 active:scale-95 transition-all duration-205 w-fit shadow-lg shadow-white/5"
+              className="inline-flex items-center gap-2.5 px-6 py-3 bg-white/10 backdrop-blur-md border border-white/15 text-white font-bold rounded-full hover:bg-white/20 hover:scale-105 active:scale-95 transition-all duration-300 w-fit shadow-[0_4px_24px_rgba(0,0,0,0.5)] hover:shadow-[0_0_20px_rgba(255,255,255,0.1)]"
               style={{ fontFamily: 'Satoshi, sans-serif' }}
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
