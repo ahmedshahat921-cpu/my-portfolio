@@ -5,6 +5,7 @@ import Hero from './components/Hero';
 import BentoGrid from './components/BentoGrid';
 import SkillsShowcase from './components/SkillsShowcase';
 import ProjectsShowcase from './components/ProjectsShowcase';
+import CertificationsShowcase from './components/CertificationsShowcase';
 import BackToTop from './components/BackToTop';
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
       <BentoGrid />
       <SkillsShowcase />
       <ProjectsShowcase />
+      <CertificationsShowcase />
       <BackToTop />
       <footer id="footer" className="py-16 border-t border-white/5 bg-zinc-950/20 text-center flex flex-col items-center gap-8" style={{ fontFamily: 'Satoshi, sans-serif' }}>
         <div className="flex flex-col items-center gap-2">
