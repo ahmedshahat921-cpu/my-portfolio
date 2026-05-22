@@ -10,6 +10,8 @@ const FRAME_COUNT = 192;
 const INITIAL_BATCH = 30;
 const BATCH_SIZE = 30;
 
+const WORDS = ['Web Developer', 'React Developer', 'Full-Stack Developer'];
+
 const Hero = () => {
   const canvasRef       = useRef(null);
   const containerRef    = useRef(null);
@@ -18,6 +20,12 @@ const Hero = () => {
   const animObjRef      = useRef({ frame: 0 }); // shared GSAP target
   const [batchReady, setBatchReady]   = useState(false);  // first 30 loaded?
   const [totalLoaded, setTotalLoaded] = useState(0);
+
+  // ── Typewriter state ───────────────────────────────────────────────────
+  const [currentWordIndex, setCurrentWordIndex] = useState(0);
+  const [displayedText, setDisplayedText] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [typingSpeed, setTypingSpeed] = useState(120);
 
   // ── Draw a specific frame onto the canvas ──────────────────────────────
   const drawFrame = useCallback((index) => {
@@ -119,6 +127,40 @@ const Hero = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // ── Typewriter effect for developer titles ──────────────────────────────
+  useEffect(() => {
+    let timer;
+    const currentWord = WORDS[currentWordIndex];
+
+    const handleTyping = () => {
+      if (!isDeleting) {
+        setDisplayedText(currentWord.substring(0, displayedText.length + 1));
+        setTypingSpeed(100 + Math.random() * 50);
+
+        if (displayedText === currentWord) {
+          timer = setTimeout(() => {
+            setIsDeleting(true);
+            setTypingSpeed(50);
+          }, 2000);
+          return;
+        }
+      } else {
+        setDisplayedText(currentWord.substring(0, displayedText.length - 1));
+        setTypingSpeed(50);
+
+        if (displayedText === '') {
+          setIsDeleting(false);
+          setCurrentWordIndex((prev) => (prev + 1) % WORDS.length);
+          setTypingSpeed(150);
+          return;
+        }
+      }
+    };
+
+    timer = setTimeout(handleTyping, typingSpeed);
+    return () => clearTimeout(timer);
+  }, [displayedText, isDeleting, currentWordIndex, typingSpeed]);
+
   return (
     <div id="home" ref={containerRef} className="relative bg-black" style={{ height: '800vh' }}>
       <div className="sticky top-0 h-screen w-full overflow-hidden">
@@ -168,15 +210,13 @@ const Hero = () => {
 
           {/* Left-Aligned Stack */}
           <div className="flex flex-col items-start gap-5 max-w-lg mb-8 md:mb-4">
-            <div>
-              <span className="text-[10px] md:text-xs font-bold tracking-widest text-white/40 uppercase" style={{ fontFamily: 'Satoshi, sans-serif' }}>
-                Creative Portfolio
-              </span>
+            <div className="min-h-[40px] sm:min-h-[48px] md:min-h-[56px] flex items-center">
               <h1
-                className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight uppercase mt-1"
+                className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight uppercase"
                 style={{ fontFamily: 'Syne, sans-serif' }}
               >
-                Web Developer
+                <span className="text-white">{displayedText}</span>
+                <span className="inline-block ml-1.5 w-[3px] h-[0.85em] bg-green-400 align-middle animate-pulse" />
               </h1>
             </div>
 
