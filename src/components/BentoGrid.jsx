@@ -58,7 +58,7 @@ const WallpaperGallery = () => {
 
       <div 
         className="flex gap-3 w-max grayscale group-hover/gallery:grayscale-0 transition-all duration-700"
-        style={{ animation: 'slide-horizontal 30s linear infinite' }}
+        style={{ animation: 'slide-horizontal 10s linear infinite' }}
       >
         {items.map((item, i) => (
           <img
