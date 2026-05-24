@@ -219,13 +219,13 @@ const StatusCard = () => {
   }, []);
 
   return (
-    <div className="h-full px-6 md:px-8 py-3.5 flex flex-col md:flex-row md:items-center justify-between relative overflow-hidden select-none gap-4">
+    <div className="h-full px-6 md:px-8 py-5 md:py-0 flex flex-col md:flex-row md:items-center justify-between relative overflow-hidden select-none gap-5">
       {/* Decorative gradient light blur in background */}
       <div className="absolute -right-10 -bottom-10 w-40 h-40 rounded-full bg-blue-500/10 blur-3xl pointer-events-none z-0" />
       <div className="absolute -left-10 -top-10 w-40 h-40 rounded-full bg-green-500/5 blur-3xl pointer-events-none z-0" />
 
       {/* Left side: Location and Availability Info */}
-      <div className="relative z-10 flex flex-wrap items-center gap-3">
+      <div className="relative z-10 flex flex-wrap items-center justify-center md:justify-start gap-3">
         <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold uppercase tracking-widest text-white/70" style={{ fontFamily: 'Satoshi, sans-serif' }}>
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="text-blue-400">
             <path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z" />
@@ -244,7 +244,7 @@ const StatusCard = () => {
       </div>
 
       {/* Center text: "Freelance & Fulltime · Let's Build Something" */}
-      <div className="relative z-10 hidden lg:flex items-center gap-2 text-white/40 uppercase tracking-widest font-bold text-[10px]" style={{ fontFamily: 'Satoshi, sans-serif' }}>
+      <div className="relative z-10 hidden lg:flex items-center justify-center gap-2 text-white/40 uppercase tracking-widest font-bold text-[10px]" style={{ fontFamily: 'Satoshi, sans-serif' }}>
         <span>Freelance & Fulltime</span>
         <span className="text-white/20">•</span>
         <span className="text-white/70 hover:text-white transition-colors flex items-center gap-1 cursor-default">
@@ -257,8 +257,8 @@ const StatusCard = () => {
       </div>
 
       {/* Right side: Live Digital Clock */}
-      <div className="relative z-10 flex items-center gap-4">
-        <div className="flex flex-col items-start md:items-end">
+      <div className="relative z-10 flex items-center justify-center md:justify-end gap-4">
+        <div className="flex flex-col items-center md:items-end">
           <span className="text-white/40 text-[9px] uppercase tracking-widest font-bold" style={{ fontFamily: 'Satoshi, sans-serif' }}>
             Local Time
           </span>
