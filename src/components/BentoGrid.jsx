@@ -183,15 +183,15 @@ const IntroCard = () => {
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="mt-6 md:mt-8 relative">
+      <form onSubmit={handleSubmit} className="mt-6 md:mt-8 relative pb-6">
         {/* Success toast */}
         {sent && (
           <motion.div
-            initial={{ y: 8, opacity: 0, scale: 0.96 }}
+            initial={{ y: -8, opacity: 0, scale: 0.96 }}
             animate={{ y: 0,   opacity: 1, scale: 1 }}
-            exit={{   y: -8, opacity: 0, scale: 0.96 }}
+            exit={{   y: 8, opacity: 0, scale: 0.96 }}
             transition={{ type: 'spring', stiffness: 350, damping: 25 }}
-            className="absolute -top-12 left-0 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 shadow-[0_0_15px_rgba(16,185,129,0.1)] text-emerald-400 text-[10px] font-bold uppercase tracking-widest"
+            className="absolute bottom-0 left-4 inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/20 shadow-[0_0_15px_rgba(16,185,129,0.1)] text-emerald-400 text-[9px] font-bold uppercase tracking-widest"
             style={{ fontFamily: 'Satoshi, sans-serif' }}
           >
             <span className="flex h-1.5 w-1.5 relative">
@@ -208,7 +208,7 @@ const IntroCard = () => {
             onChange={(e) => setMessage(e.target.value)}
             disabled={sending}
             placeholder={sending ? "Sending..." : "Say hello…"}
-            className="bg-white/10 border border-white/10 rounded-full px-5 py-3 w-full text-white placeholder:text-white/30 focus:outline-none focus:bg-white/15 focus:border-white/30 transition-all text-sm disabled:opacity-50"
+            className="bg-white/5 border border-white/10 rounded-full px-5 py-3.5 w-full text-white placeholder:text-white/30 focus:outline-none focus:bg-zinc-950/80 focus:border-indigo-500/50 focus:shadow-[0_0_20px_rgba(99,102,241,0.25)] transition-all duration-500 text-sm disabled:opacity-50 caret-indigo-400"
             style={{ fontFamily: 'Satoshi, sans-serif' }}
           />
           <button
