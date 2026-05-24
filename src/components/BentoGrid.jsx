@@ -130,13 +130,18 @@ const WallpaperGallery = () => {
 // 2. Intro Card
 // ─────────────────────────────────────────────────────────
 const IntroCard = () => {
-  const [message, setMessage] = useState('');
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [sent, setSent]       = useState(false);
   const [sending, setSending] = useState(false);
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!message.trim() || sending) return;
+    if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim() || sending) return;
 
     setSending(true);
 
@@ -145,10 +150,11 @@ const IntroCard = () => {
     const publicKey = 'Y7IKBnlXv-XTK4mYB';
 
     const templateParams = {
-      name: 'Portfolio Visitor',
-      from_name: 'Portfolio Visitor',
-      message: message,
-      email: message,
+      name: formData.name,
+      from_name: formData.name,
+      message: formData.message,
+      email: formData.email,
+      reply_to: formData.email,
     };
 
     emailjs.send(serviceId, templateId, templateParams, publicKey)
@@ -156,7 +162,7 @@ const IntroCard = () => {
         console.log('SUCCESS!', response.status, response.text);
         setSending(false);
         setSent(true);
-        setMessage('');
+        setFormData({ name: '', email: '', message: '' });
         setTimeout(() => setSent(false), 3500);
       })
       .catch((err) => {
@@ -167,58 +173,93 @@ const IntroCard = () => {
   };
 
   return (
-    <div className="p-7 md:p-10 flex flex-col justify-between h-full">
+    <div className="p-6 md:p-9 flex flex-col justify-between h-full">
       <div>
-        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold uppercase tracking-widest text-white/50 mb-4" style={{ fontFamily: 'Satoshi, sans-serif' }}>
+        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold uppercase tracking-widest text-white/50 mb-3" style={{ fontFamily: 'Satoshi, sans-serif' }}>
           <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
           About Me
         </span>
         <h2
-          className="text-3xl md:text-4xl font-bold mb-4 text-white"
+          className="text-2xl md:text-3xl font-bold mb-3 text-white"
           style={{ fontFamily: 'Syne, sans-serif' }}
         >
           Hi, I'm Ahmed Shahat
         </h2>
-        <p className="text-white/70 text-base md:text-lg leading-relaxed max-w-2xl" style={{ fontFamily: 'Satoshi, sans-serif' }}>
+        <p className="text-white/70 text-sm md:text-base leading-relaxed max-w-2xl" style={{ fontFamily: 'Satoshi, sans-serif' }}>
           I am a <span className="text-white font-semibold">Web Developer</span> dedicated to building seamless, interactive responsive web applications. While my core expertise lies in crafting modern frontend experiences with <span className="text-blue-400 font-semibold">React.js</span> and <span className="text-sky-400 font-semibold">Tailwind CSS</span>, my capabilities extend deeply into robust <span className="text-indigo-400 font-semibold">backend engineering</span> and relational database systems. I focus on turning complex business logic into clean, efficient, and beautifully structured code.
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="mt-6 md:mt-8 relative pb-10">
-        {/* Success toast */}
-        {sent && (
-          <motion.div
-            initial={{ y: -8, opacity: 0, scale: 0.96 }}
-            animate={{ y: 0,   opacity: 1, scale: 1 }}
-            exit={{   y: 8, opacity: 0, scale: 0.96 }}
-            transition={{ type: 'spring', stiffness: 350, damping: 25 }}
-            className="absolute bottom-1 left-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 shadow-[0_0_15px_rgba(16,185,129,0.1)] text-emerald-400 text-[9px] font-bold uppercase tracking-widest"
-            style={{ fontFamily: 'Satoshi, sans-serif' }}
-          >
-            <span className="flex h-1.5 w-1.5 relative">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
-            </span>
-            Message Sent Successfully
-          </motion.div>
-        )}
-        <div className="flex gap-2">
+      <form onSubmit={handleSubmit} className="mt-5 relative flex flex-col gap-3">
+        {/* Name and Email side-by-side */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <input
             type="text"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
             disabled={sending}
-            placeholder={sending ? "Sending..." : "Say hello…"}
-            className="bg-white/5 border border-white/10 rounded-full px-5 py-3.5 w-full text-white placeholder:text-white/30 focus:outline-none focus:bg-zinc-950/80 focus:border-indigo-500/50 focus:shadow-[0_0_20px_rgba(99,102,241,0.25)] transition-all duration-500 text-sm disabled:opacity-50 caret-indigo-400"
+            required
+            placeholder="Your Name"
+            className="bg-white/5 border border-white/10 rounded-2xl px-4 py-2.5 text-white placeholder:text-white/30 focus:outline-none focus:bg-zinc-950/80 focus:border-indigo-500/50 focus:shadow-[0_0_15px_rgba(99,102,241,0.2)] transition-all duration-300 text-sm disabled:opacity-50 caret-indigo-400"
             style={{ fontFamily: 'Satoshi, sans-serif' }}
           />
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            disabled={sending}
+            required
+            placeholder="Your Email"
+            className="bg-white/5 border border-white/10 rounded-2xl px-4 py-2.5 text-white placeholder:text-white/30 focus:outline-none focus:bg-zinc-950/80 focus:border-indigo-500/50 focus:shadow-[0_0_15px_rgba(99,102,241,0.2)] transition-all duration-300 text-sm disabled:opacity-50 caret-indigo-400"
+            style={{ fontFamily: 'Satoshi, sans-serif' }}
+          />
+        </div>
+
+        {/* Message field */}
+        <textarea
+          name="message"
+          value={formData.message}
+          onChange={handleChange}
+          disabled={sending}
+          required
+          rows={3}
+          placeholder="Write your message here..."
+          className="bg-white/5 border border-white/10 rounded-2xl px-4 py-2.5 w-full text-white placeholder:text-white/30 focus:outline-none focus:bg-zinc-950/80 focus:border-indigo-500/50 focus:shadow-[0_0_15px_rgba(99,102,241,0.2)] transition-all duration-300 text-sm disabled:opacity-50 caret-indigo-400 resize-none"
+          style={{ fontFamily: 'Satoshi, sans-serif' }}
+        />
+
+        {/* Action Row */}
+        <div className="flex justify-between items-center min-h-[38px]">
+          {/* Success toast */}
+          <AnimatePresence>
+            {sent && (
+              <motion.div
+                initial={{ x: -10, opacity: 0 }}
+                animate={{ x: 0,   opacity: 1 }}
+                exit={{   x: -10, opacity: 0 }}
+                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 shadow-[0_0_15px_rgba(16,185,129,0.1)] text-emerald-400 text-[9px] font-bold uppercase tracking-widest"
+                style={{ fontFamily: 'Satoshi, sans-serif' }}
+              >
+                <span className="flex h-1.5 w-1.5 relative">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+                </span>
+                Sent Successfully
+              </motion.div>
+            )}
+          </AnimatePresence>
+          
+          <div className="flex-1" />
+          
           <button
             type="submit"
-            disabled={sending || !message.trim()}
-            className="bg-white text-black rounded-full px-6 py-3 font-bold text-sm hover:scale-105 active:scale-95 transition-transform flex-shrink-0 disabled:opacity-50 disabled:scale-100"
+            disabled={sending || !formData.name.trim() || !formData.email.trim() || !formData.message.trim()}
+            className="bg-white text-black rounded-full px-6 py-2.5 font-bold text-sm hover:scale-105 active:scale-95 transition-transform flex-shrink-0 disabled:opacity-50 disabled:scale-100"
             style={{ fontFamily: 'Satoshi, sans-serif' }}
           >
-            {sending ? "Sending..." : "Send"}
+            {sending ? "Sending..." : "Send Message"}
           </button>
         </div>
       </form>
