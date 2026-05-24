@@ -282,7 +282,7 @@ const BentoGrid = () => {
           <WallpaperGallery />
         </Card>
 
-        <Card id="contact" className="md:col-span-7 min-h-[320px] md:min-h-[360px]">
+        <Card className="md:col-span-7 min-h-[320px] md:min-h-[360px]">
           <IntroCard />
         </Card>
 
