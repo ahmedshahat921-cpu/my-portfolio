@@ -187,13 +187,18 @@ const IntroCard = () => {
         {/* Success toast */}
         {sent && (
           <motion.div
-            initial={{ x: -30, opacity: 0 }}
-            animate={{ x: 0,   opacity: 1 }}
-            exit={{   x: -30, opacity: 0 }}
-            className="absolute -top-10 left-0 text-green-400 text-sm font-medium"
+            initial={{ y: 8, opacity: 0, scale: 0.96 }}
+            animate={{ y: 0,   opacity: 1, scale: 1 }}
+            exit={{   y: -8, opacity: 0, scale: 0.96 }}
+            transition={{ type: 'spring', stiffness: 350, damping: 25 }}
+            className="absolute -top-12 left-0 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 shadow-[0_0_15px_rgba(16,185,129,0.1)] text-emerald-400 text-[10px] font-bold uppercase tracking-widest"
             style={{ fontFamily: 'Satoshi, sans-serif' }}
           >
-            ✓ Message sent!
+            <span className="flex h-1.5 w-1.5 relative">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+            </span>
+            Message Sent Successfully
           </motion.div>
         )}
         <div className="flex gap-2">
