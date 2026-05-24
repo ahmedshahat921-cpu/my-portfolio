@@ -201,7 +201,7 @@ const ContactForm = () => {
           {/* Right Panel: Glassmorphic Message Composer */}
           <div className="lg:col-span-7 bg-zinc-950/40 border border-white/5 rounded-2xl p-6 md:p-8 flex flex-col justify-between">
             <h3 className="text-xl md:text-2xl font-bold text-white tracking-wide uppercase font-syne mb-6">
-              Get in Touch
+              Contact Us
             </h3>
 
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
