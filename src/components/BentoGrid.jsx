@@ -145,9 +145,8 @@ const IntroCard = () => {
     const publicKey = 'Y7IKBnlXv-XTK4mYB';
 
     const templateParams = {
-      message: message,
-      to_name: 'Ahmed Shahat',
-      from_name: 'Portfolio Visitor',
+      name: 'Portfolio Visitor',
+      email: message,
     };
 
     emailjs.send(serviceId, templateId, templateParams, publicKey)
