@@ -146,6 +146,8 @@ const IntroCard = () => {
 
     const templateParams = {
       name: 'Portfolio Visitor',
+      from_name: 'Portfolio Visitor',
+      message: message,
       email: message,
     };
 
