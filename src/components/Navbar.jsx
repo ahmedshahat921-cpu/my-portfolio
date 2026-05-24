@@ -79,6 +79,7 @@ const Navbar = () => {
           <Magnetic>
             <a
               href="/assets/Ahmed_Shahat_CV.pdf"
+              download="Ahmed_Shahat_CV.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-6 py-2.5 bg-white/10 backdrop-blur-md border border-white/15 text-white font-bold rounded-full hover:bg-white/20 hover:scale-105 active:scale-95 transition-all duration-300 shadow-[0_4px_12px_rgba(0,0,0,0.3)] hover:shadow-[0_0_15px_rgba(255,255,255,0.1)] normal-case"
@@ -145,6 +146,7 @@ const Navbar = () => {
         {/* Mobile Download CV Button */}
         <a
           href="/assets/Ahmed_Shahat_CV.pdf"
+          download="Ahmed_Shahat_CV.pdf"
           target="_blank"
           rel="noopener noreferrer"
           className={`inline-flex items-center gap-2 px-5 py-2.5 bg-white/10 backdrop-blur-md border border-white/15 text-white font-bold rounded-full hover:bg-white/20 transition-all duration-300 shadow-[0_4px_12px_rgba(0,0,0,0.3)] text-sm tracking-wide ${
