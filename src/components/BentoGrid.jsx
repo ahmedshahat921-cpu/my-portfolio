@@ -3,6 +3,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import emailjs from '@emailjs/browser';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -131,13 +132,37 @@ const WallpaperGallery = () => {
 const IntroCard = () => {
   const [message, setMessage] = useState('');
   const [sent, setSent]       = useState(false);
+  const [sending, setSending] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!message.trim()) return;
-    setSent(true);
-    setMessage('');
-    setTimeout(() => setSent(false), 3500);
+    if (!message.trim() || sending) return;
+
+    setSending(true);
+
+    const serviceId = 'service_eizu7i9';
+    const templateId = 'template_rndpr8f';
+    const publicKey = 'Y7IKBnlXv-XTK4mYB';
+
+    const templateParams = {
+      message: message,
+      to_name: 'Ahmed Shahat',
+      from_name: 'Portfolio Visitor',
+    };
+
+    emailjs.send(serviceId, templateId, templateParams, publicKey)
+      .then((response) => {
+        console.log('SUCCESS!', response.status, response.text);
+        setSending(false);
+        setSent(true);
+        setMessage('');
+        setTimeout(() => setSent(false), 3500);
+      })
+      .catch((err) => {
+        console.error('FAILED...', err);
+        setSending(false);
+        alert('Failed to send message. Please try again later or contact me via WhatsApp/Email directly.');
+      });
   };
 
   return (
@@ -176,16 +201,18 @@ const IntroCard = () => {
             type="text"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            placeholder="Say hello…"
-            className="bg-white/10 border border-white/10 rounded-full px-5 py-3 w-full text-white placeholder:text-white/30 focus:outline-none focus:bg-white/15 focus:border-white/30 transition-all text-sm"
+            disabled={sending}
+            placeholder={sending ? "Sending..." : "Say hello…"}
+            className="bg-white/10 border border-white/10 rounded-full px-5 py-3 w-full text-white placeholder:text-white/30 focus:outline-none focus:bg-white/15 focus:border-white/30 transition-all text-sm disabled:opacity-50"
             style={{ fontFamily: 'Satoshi, sans-serif' }}
           />
           <button
             type="submit"
-            className="bg-white text-black rounded-full px-6 py-3 font-bold text-sm hover:scale-105 active:scale-95 transition-transform flex-shrink-0"
+            disabled={sending || !message.trim()}
+            className="bg-white text-black rounded-full px-6 py-3 font-bold text-sm hover:scale-105 active:scale-95 transition-transform flex-shrink-0 disabled:opacity-50 disabled:scale-100"
             style={{ fontFamily: 'Satoshi, sans-serif' }}
           >
-            Send
+            {sending ? "Sending..." : "Send"}
           </button>
         </div>
       </form>
