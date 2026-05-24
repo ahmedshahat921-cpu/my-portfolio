@@ -183,7 +183,7 @@ const IntroCard = () => {
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="mt-6 md:mt-8 relative pb-6">
+      <form onSubmit={handleSubmit} className="mt-6 md:mt-8 relative pb-10">
         {/* Success toast */}
         {sent && (
           <motion.div
@@ -191,7 +191,7 @@ const IntroCard = () => {
             animate={{ y: 0,   opacity: 1, scale: 1 }}
             exit={{   y: 8, opacity: 0, scale: 0.96 }}
             transition={{ type: 'spring', stiffness: 350, damping: 25 }}
-            className="absolute bottom-0 left-4 inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/20 shadow-[0_0_15px_rgba(16,185,129,0.1)] text-emerald-400 text-[9px] font-bold uppercase tracking-widest"
+            className="absolute bottom-1 left-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 shadow-[0_0_15px_rgba(16,185,129,0.1)] text-emerald-400 text-[9px] font-bold uppercase tracking-widest"
             style={{ fontFamily: 'Satoshi, sans-serif' }}
           >
             <span className="flex h-1.5 w-1.5 relative">
