@@ -42,6 +42,13 @@ const ContactForm = () => {
     e.preventDefault();
     if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim() || sending) return;
 
+    // Strict regex email validation to prevent email bounce daemon errors
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email.trim())) {
+      alert("Please enter a valid email address (e.g., name@example.com).");
+      return;
+    }
+
     setSending(true);
 
     const serviceId = 'service_eizu7i9';
