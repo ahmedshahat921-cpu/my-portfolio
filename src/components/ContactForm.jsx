@@ -88,6 +88,20 @@ const ContactForm = () => {
       <div className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-blue-500/5 rounded-full blur-[100px] pointer-events-none z-0" />
       <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-indigo-500/5 rounded-full blur-[120px] pointer-events-none z-0" />
 
+      {/* Section Header */}
+      <div className="flex flex-col items-center gap-2 mb-12 md:mb-16 relative z-10 text-center">
+        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[9px] font-bold uppercase tracking-widest text-white/45" style={{ fontFamily: 'Satoshi, sans-serif' }}>
+          <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse" />
+          Get In Touch
+        </span>
+        <h2 
+          className="text-2xl md:text-3xl lg:text-4xl font-bold font-syne text-white tracking-wider uppercase"
+          style={{ fontFamily: 'Syne, sans-serif' }}
+        >
+          Contact Us
+        </h2>
+      </div>
+
       {/* Main glassmorphic container */}
       <div className="max-w-5xl mx-auto contact-card relative z-10 bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-6 md:p-8 lg:p-10 shadow-2xl hover:border-white/15 transition-all duration-500">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -201,7 +215,7 @@ const ContactForm = () => {
           {/* Right Panel: Glassmorphic Message Composer */}
           <div className="lg:col-span-7 bg-zinc-950/40 border border-white/5 rounded-2xl p-6 md:p-8 flex flex-col justify-between">
             <h3 className="text-xl md:text-2xl font-bold text-white tracking-wide uppercase font-syne mb-6">
-              Contact Us
+              Get in Touch
             </h3>
 
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
